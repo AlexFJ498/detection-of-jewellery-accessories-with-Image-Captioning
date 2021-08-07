@@ -127,3 +127,7 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+#other
+notes.txt
+data/SBW-vectors-300-min5.txt
