@@ -1,6 +1,7 @@
 import os
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 
+from matplotlib import pyplot as plt
 import sys
 import pickle
 import argparse
@@ -12,39 +13,6 @@ import modelFunctions
 from tensorflow import keras
 import tensorflow.keras.preprocessing.image
 
-def searchCaption(caption, data):
-    predicted_image = False
-    for img, cap in data.items():
-        if caption == cap:
-            predicted_image = True
-            break
-
-    return predicted_image, img
-
-def obtainCCR(ccr, total):
-    ccr = ccr / total
-    ccr = ccr * 100
-    return ccr
-
-def getNumAccesories(captions_array):
-    num_gargantillas = 0
-    num_pendientes = 0
-    num_anillos = 0
-    num_pulseras = 0
-
-    for caption in captions_array:
-        word = caption.split()[1]
-        if word == 'Gargantilla' or word == 'Colgante':
-            num_gargantillas += 1
-        elif word == 'Pendientes':
-            num_pendientes += 1
-        elif word == 'Anillo' or word == "Sortija":
-            num_anillos += 1
-        elif word == 'Pulsera':
-            num_pulseras += 1
-
-    return num_gargantillas, num_pendientes, num_anillos, num_pulseras
-
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Script to create and train an Image Captioning Model")
 
@@ -53,7 +21,7 @@ if __name__ == "__main__":
     parser.add_argument("--cnn", help="Type of Convolutional Neural Network to use (inception or vgg16)", dest="cnn_type", type=str, default="inception")
     parser.add_argument("--rnn", help="Type of special units to use for Recurrent Neural Network (lstm or gru)", dest="rnn_type", type=str, default="lstm")
     parser.add_argument("--use_embedding", help="Use or not embedding", dest="use_embedding", type=bool, default=False)
-    parser.add_argument("--epochs", help="Number of epochs", dest="epochs", type=int, default=20)
+    parser.add_argument("--epochs", help="Number of epochs", dest="epochs", type=int, default=50)
     parser.add_argument("--batch_size", help="Batch size", dest="batch_size", type=int, default=10)
     parser.add_argument("--neurons", help="Number of neurons for each layer of RNN", dest="neurons", type=int, default=256)
     parser.add_argument("--rw_images", help="Re-write encoded images if already exists.", dest="rewrite_images", type=bool, default=False)
@@ -96,20 +64,20 @@ if __name__ == "__main__":
     if not os.path.exists(train_images_save) or args.rewrite_images == True:
         print(f"Encoding images to {train_images_save}...")
         shape = (len(images_array), output_dim)
-        train_encoded_images = np.zeros(shape=shape, dtype=np.float16)
+        encoded_images = np.zeros(shape=shape, dtype=np.float16)
 
         for i, img in enumerate(images_array):
             image_path = os.path.join(images_path, img)
             img = tensorflow.keras.preprocessing.image.load_img(image_path, target_size=(height, width))
-            train_encoded_images[i] = modelFunctions.encodeImage(cnn_model, img, width, height, output_dim, preprocess_input)
+            encoded_images[i] = modelFunctions.encodeImage(cnn_model, img, width, height, output_dim, preprocess_input)
         
         with open(train_images_save, 'wb') as f:
-            pickle.dump(train_encoded_images, f)
+            pickle.dump(encoded_images, f)
             print("Saved encoded images to disk")
     else:
         print(f"Loading images from {train_images_save}...")
         with open(train_images_save, 'rb') as f:
-            train_encoded_images = pickle.load(f)
+            encoded_images = pickle.load(f)
 
     # Load Embeddings if needed
     if args.use_embedding == True:
@@ -133,29 +101,25 @@ if __name__ == "__main__":
         model.layers[2].set_weights([embedding_matrix])
         model.layers[2].trainable = True
 
-    model.compile(loss=loss_compile, optimizer='adam')
+    model.compile(loss=loss_compile, optimizer='adam', metrics=['accuracy'])
 
     # Train model
     print("Training model...")
     model_save = os.path.join(args.model_path, f'model_{args.cnn_type}_{args.rnn_type}_{args.use_embedding}_{args.epochs}_{args.neurons}.hdf5')
     if not os.path.exists(model_save) or args.rewrite_model == True:
-        for i in range(args.epochs*2):
-            if args.rnn_type == "lstm":
-                generator = modelFunctions.lstm_generator(train_encoded_images, captions_array, token_captions_array, max_length, args.batch_size, vocab_size)
-            elif args.rnn_type == "gru":
-                generator = modelFunctions.gru_generator(train_encoded_images, token_captions_array, args.batch_size)
+        if args.rnn_type == "lstm":
+            generator = modelFunctions.lstm_generator(encoded_images, captions_array, token_captions_array, max_length, args.batch_size, vocab_size)
+        elif args.rnn_type == "gru":
+            generator = modelFunctions.gru_generator(encoded_images, token_captions_array, args.batch_size)
 
-            model.fit(generator, epochs=1, steps_per_epoch=(len(train_encoded_images) // args.batch_size), verbose=1)
-
-        model.optimizer.lr = 1e-4
-
-        for i in range(args.epochs):
-            if args.rnn_type == "lstm":
-                generator = modelFunctions.lstm_generator(train_encoded_images, captions_array, token_captions_array, max_length, args.batch_size, vocab_size)
-            elif args.rnn_type == "gru":
-                generator = modelFunctions.gru_generator(train_encoded_images, token_captions_array, args.batch_size)
-
-            model.fit(generator, epochs=1, steps_per_epoch=(len(train_encoded_images) // args.batch_size), verbose=1)
+        model.fit(generator, epochs=args.epochs, steps_per_epoch=(len(encoded_images) // args.batch_size), verbose=2)
+        plt.plot(model.history.history['accuracy'])
+        plt.plot(model.history.history['loss'])
+        plt.title('model accuracy')
+        plt.ylabel('accuracy')
+        plt.xlabel('epoch')
+        plt.legend(['train'], loc='upper left')
+        plt.show()
 
         model.save(model_save)
         print(f'Saved model to {model_save}')
