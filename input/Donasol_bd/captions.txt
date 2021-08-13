@@ -132,8 +132,6 @@ pulsera-necklace-acero.jpg		Pulsera de oro
 pulsera-necklace.jpg		Pulsera de oro 
 pulsera-orion-oro.jpg		Pulsera de oro 
 pulsera-tania-oro.jpg		Pulsera de oro 
-tobillera-necklace.jpg		Pulsera de oro 
-tobillera-turquoise.jpg		Pulsera de oro 
 pendiente-karol-plata_1.jpg		Pendientes de plata 
 pendientes-aro-fino-plata-20mm_1.jpg		Pendientes de plata 
 pendientes-aro-lunita-plata_1.jpg		Pendientes de plata 
@@ -189,7 +187,11 @@ pulsera-necklace-acero_1.jpg		Pulsera de oro
 pulsera-necklace_1.jpg		Pulsera de oro 
 pulsera-necklace_2.jpg		Pulsera de oro 
 pulsera-orion-oro_1.jpg		Pulsera de oro 
-tobillera-necklace_1.jpg		Pulsera de oro 
 pulsera-gold-love.jpg		Pulsera de oro 
 pulsera-espiral-acero.jpg		Pulsera de oro 
 pulsera-espiral-acero_1.jpg		Pulsera de oro 
+pulsera-acero_1.jpg		Pulsera de oro
+pulsera-acero_2.jpg		Pulsera de oro
+pulsera-bruna_1.jpg		Pulsera de oro
+pulsera-genoveva_1.jpg		Pulsera de oro
+pulsera-genoveva.jpg		Pulsera de oro
