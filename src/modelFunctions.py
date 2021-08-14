@@ -15,186 +15,323 @@ import tensorflow.keras.applications.inception_v3
 from tensorflow.keras.applications import VGG16
 import tensorflow.keras.applications.vgg16
 
-from tensorflow.keras.layers import (LSTM, GRU, Embedding, 
-                                     TimeDistributed, Dense, RepeatVector, 
-                                     Activation, Flatten, Reshape, concatenate,  
+from tensorflow.keras.layers import (LSTM, GRU, Embedding,
+                                     TimeDistributed, Dense, RepeatVector,
+                                     Activation, Flatten, Reshape, concatenate,
                                      Dropout, BatchNormalization, add)
 
-def getCNNModel(name):
-    if name == "inception":
-        cnn_model = InceptionV3(weights='imagenet')
-        cnn_model = Model(cnn_model.input, cnn_model.layers[-2].output)
-        width = 299
-        height = 299
-        output_dim = 2048
-        preprocess_input = tensorflow.keras.applications.inception_v3.preprocess_input
-    elif name == "vgg16":
-        cnn_model = VGG16(weights='imagenet')
-        cnn_model = Model(cnn_model.input, cnn_model.layers[-2].output)
-        width = 224
-        height = 224
-        output_dim = 4096
-        preprocess_input = tensorflow.keras.applications.vgg16.preprocess_input
-    else:
-        print("Invalid model name")
-        sys.exit(1)
-    
-    return cnn_model, width, height, output_dim, preprocess_input
 
-def encodeImage(encode_model, img, width, height, output_dim, preprocess_input):
-  img = img.resize((width, height), Image.ANTIALIAS)
+class CNNModel:
+    def __init__(self,
+                 model_name=None):
+        self.model_name = model_name
 
-  encoded_image = tensorflow.keras.preprocessing.image.img_to_array(img)
-  encoded_image = np.expand_dims(encoded_image, axis=0)
-  encoded_image = preprocess_input(encoded_image)
-  encoded_image = encode_model.predict(encoded_image)
-  encoded_image = np.reshape(encoded_image, output_dim )
-  
-  return encoded_image
+        if self.model_name == "inception":
+            self.model = InceptionV3(weights='imagenet')
+            self.model = Model(inputs=self.model.input,
+                               outputs=self.model.layers[-2].output)
+            self.width = config.INCEPTION_WIDTH
+            self.height = config.INCEPTION_HEIGHT
+            self.output_dim = config.INCEPTION_OUTPUT_DIM
+            self.preprocess_input = tensorflow.keras.applications.inception_v3.preprocess_input
 
-def lstm_generator(images, captions, token_captions_array, max_length, num_photos_per_batch, vocab_size):
-  x1, x2, y = [], [], []
-  n=0
-  while True:
-    for i in range(len(captions)):
-      n += 1
-      image = images[i]
+        elif self.model_name == "vgg16":
+            self.model = VGG16(weights='imagenet')
+            self.model = Model(inputs=self.model.input,
+                               outputs=self.model.layers[-2].output)
+            self.width = config.VGG16_WIDTH
+            self.height = config.VGG16_HEIGHT
+            self.output_dim = config.VGG16_OUTPUT_DIM
+            self.preprocess_input = tensorflow.keras.applications.vgg16.preprocess_input
 
-      seq = token_captions_array[i]
+        else:
+            print("Model name not found")
+            sys.exit(1)
 
-      for i in range(1, len(seq)):
-        in_seq, out_seq = seq[:i], seq[i]
-        in_seq = pad_sequences([in_seq], maxlen=max_length)[0]
-        out_seq = to_categorical([out_seq], num_classes=vocab_size)[0]
-        x1.append(image)
-        x2.append(in_seq)
-        y.append(out_seq)
+    def get_model(self):
+        return self.model
 
-      if n == num_photos_per_batch:
-        yield ([np.array(x1), np.array(x2)], np.array(y))
+    def get_width(self):
+        return self.width
 
+    def get_height(self):
+        return self.height
+
+    def get_output_dim(self):
+        return self.output_dim
+
+    def get_preprocess_input(self):
+        return self.preprocess_input
+
+    def encode_image(self, image):
+        image = image.resize((self.width, self.height), Image.ANTIALIAS)
+
+        encoded_image = tensorflow.keras.preprocessing.image.img_to_array(
+            image)
+        encoded_image = np.expand_dims(encoded_image, axis=0)
+        encoded_image = self.preprocess_input(encoded_image)
+        encoded_image = self.model.predict(encoded_image)
+        encoded_image = np.reshape(encoded_image, self.output_dim)
+
+        return encoded_image
+
+
+class RNNModel:
+    def __init__(self,
+                 model_name=None,
+                 num_neurons=None,
+                 vocab_size=None,
+                 max_length=None,
+                 output_dim=None,
+                 loss=None,
+                 optimizer=None,
+                 embedding_matrix=None):
+
+        self.model_name = model_name
+        self.vocab_size = vocab_size
+        self.output_dim = output_dim
+        self.num_neurons = num_neurons
+        self.max_length = max_length
+        self.embedding_matrix = embedding_matrix
+        self.loss = loss
+        self.optimizer = optimizer
+
+    def build_model(self):
+        if self.model_name == "lstm":
+            self.model = self.build_lstm_model()
+
+        elif self.model_name == "gru":
+            self.model = self.build_gru_model()
+
+        else:
+            print("Invalid model name")
+            sys.exit(1)
+
+    def get_model_name(self):
+        return self.model_name
+
+    def get_model(self):
+        return self.model
+
+    def get_vocab_size(self):
+        return self.vocab_size
+
+    def get_output_dim(self):
+        return self.output_dim
+
+    def get_num_neurons(self):
+        return self.num_neurons
+
+    def get_max_length(self):
+        return self.max_length
+
+    def get_embedding_matrix(self):
+        return self.embedding_matrix
+
+    def get_loss(self):
+        return self.loss
+
+    def get_optimizer(self):
+        return self.optimizer
+
+    def set_model(self, model):
+        self.model = model
+
+    def build_lstm_model(self):
+        inputs1 = Input(shape=(self.output_dim,))
+        fe1 = Dropout(0.5)(inputs1)
+        fe2 = Dense(self.num_neurons, activation='relu')(fe1)
+        inputs2 = Input(shape=(self.max_length,))
+        se1 = Embedding(self.vocab_size, config.EMBEDDING_SIZE,
+                        mask_zero=True)(inputs2)
+        se2 = Dropout(0.5)(se1)
+        se3 = LSTM(self.num_neurons)(se2)
+        decoder1 = add([fe2, se3])
+        decoder2 = Dense(self.num_neurons, activation='relu')(decoder1)
+        outputs = Dense(self.vocab_size, activation='softmax')(decoder2)
+        model = Model(inputs=[inputs1, inputs2], outputs=outputs)
+
+        return model
+
+    def build_gru_model_2(self):
+        inputs1 = Input(shape=(self.output_dim,))
+        fe1 = Dropout(0.5)(inputs1)
+        fe2 = Dense(self.num_neurons, activation='relu')(fe1)
+        inputs2 = Input(shape=(self.max_length,))
+        se1 = Embedding(self.vocab_size, config.EMBEDDING_SIZE,
+                        mask_zero=True)(inputs2)
+        se2 = Dropout(0.5)(se1)
+        se3 = GRU(self.num_neurons)(se2)
+        decoder1 = add([fe2, se3])
+        decoder2 = Dense(self.num_neurons, activation='relu')(decoder1)
+        outputs = Dense(self.vocab_size, activation='softmax')(decoder2)
+        model = Model(inputs=[inputs1, inputs2], outputs=outputs)
+
+        return model
+
+    def build_gru_model(self):
+        transfer_values_input = Input(
+            shape=(self.output_dim,), name='transfer_values_input')
+        decoder_transfer_map = Dense(
+            self.num_neurons, activation='tanh', name='decoder_transfer_map')
+        decoder_input = Input(shape=(None, ), name='decoder_input')
+        decoder_embedding = Embedding(
+            input_dim=self.vocab_size, output_dim=300, mask_zero=True, name='decoder_embedding')
+        decoder_gru1 = GRU(
+            self.num_neurons, name='decoder_gru1', return_sequences=True)
+        decoder_gru2 = GRU(
+            self.num_neurons, name='decoder_gru2', return_sequences=True)
+        decoder_gru3 = GRU(
+            self.num_neurons, name='decoder_gru3', return_sequences=True)
+        decoder_dense = Dense(
+            self.vocab_size, activation='softmax', name='decoder_output')
+
+        initial_state = decoder_transfer_map(transfer_values_input)
+
+        net = decoder_input
+        net = decoder_embedding(net)
+
+        net = decoder_gru1(net, initial_state=initial_state)
+        net = decoder_gru2(net, initial_state=initial_state)
+        net = decoder_gru3(net, initial_state=initial_state)
+
+        decoder_output = decoder_dense(net)
+        model = Model(inputs=[transfer_values_input,
+                      decoder_input], outputs=[decoder_output])
+
+        return model
+
+    def compile_model(self):
+        if self.embedding_matrix is not None:
+            self.model.layers[2].set_weights([self.embedding_matrix])
+            self.model.layers[2].trainable = True
+
+        self.model.compile(optimizer=self.optimizer,
+                           loss=self.loss, metrics=config.METRICS)
+
+    def create_generator(self, images, token_captions, batch_size):
+        if self.model_name == "lstm":
+            return self.create_lstm_generator(images, token_captions, batch_size)
+
+        elif self.model_name == "gru":
+            return self.create_gru_generator(images, token_captions, batch_size)
+
+        else:
+            print("Invalid model name")
+            sys.exit(1)
+
+    def create_lstm_generator(self, images, token_captions, batch_size):
         x1, x2, y = [], [], []
         n = 0
 
-def gru_generator(images, token_captions, batch_size):
-    while True:
-        idx = np.random.randint(len(token_captions), size=batch_size)
-        transfer_values = images[idx]
+        while True:
+            for i in range(len(token_captions)):
+                n += 1
+                image = images[i]
 
-        tokens = []
-        for i in idx:
-          tokens.append(token_captions[i])
+                seq = token_captions[i]
 
-        num_tokens = [len(t) for t in tokens]    
-        max_tokens = np.max(num_tokens)
+                for i in range(1, len(seq)):
+                    in_seq, out_seq = seq[:i], seq[i]
+                    in_seq = pad_sequences([in_seq], maxlen=self.max_length)[0]
+                    out_seq = to_categorical(
+                        [out_seq], num_classes=self.vocab_size)[0]
+                    x1.append(image)
+                    x2.append(in_seq)
+                    y.append(out_seq)
 
-        tokens_padded = pad_sequences(tokens, maxlen=max_tokens, padding='post', truncating='post')
-        
-        decoder_input_data = tokens_padded[:, 0:-1]
-        decoder_output_data = tokens_padded[:, 1:]
+                if n == batch_size:
+                    yield ([np.array(x1), np.array(x2)], np.array(y))
 
-        x_data = {
-            'decoder_input': decoder_input_data,
-            'transfer_values_input': transfer_values
-        }
+                    x1, x2, y = [], [], []
+                    n = 0
 
-        y_data = {
-            'decoder_output': decoder_output_data
-        }
-        
-        yield (x_data, y_data)
+    def create_gru_generator(self, images, token_captions, batch_size):
+        while True:
+            idx = np.random.randint(len(token_captions), size=batch_size)
+            transfer_values = images[idx]
 
-def buildModelLSTM(vocab_size, output_dim, num_neurons, max_length):
-    inputs1 = Input(shape=(output_dim,))
-    fe1 = Dropout(0.5)(inputs1)
-    fe2 = Dense(num_neurons, activation='relu')(fe1)
-    inputs2 = Input(shape=(max_length,))
-    se1 = Embedding(vocab_size, config.EMBEDDING_SIZE, mask_zero=True)(inputs2)
-    se2 = Dropout(0.5)(se1)
-    se3 = LSTM(num_neurons)(se2)
-    decoder1 = add([fe2, se3])
-    decoder2 = Dense(num_neurons, activation='relu')(decoder1)
-    outputs = Dense(vocab_size, activation='softmax')(decoder2)
-    caption_model = Model(inputs=[inputs1, inputs2], outputs=outputs)
+            tokens = []
+            for i in idx:
+                tokens.append(token_captions[i])
 
-    return caption_model
+            num_tokens = [len(t) for t in tokens]
+            max_tokens = np.max(num_tokens)
 
-def buildModelGRU(vocab_size, output_dim, num_neurons):
-    transfer_values_input = Input(shape=(output_dim,), name='transfer_values_input')
-    decoder_transfer_map = Dense(num_neurons, activation='tanh', name='decoder_transfer_map')
-    decoder_input = Input(shape=(None, ), name='decoder_input')
-    decoder_embedding = Embedding(input_dim=vocab_size, output_dim=300, mask_zero=True, name='decoder_embedding')
-    decoder_gru1 = GRU(num_neurons, name='decoder_gru1', return_sequences=True)
-    decoder_gru2 = GRU(num_neurons, name='decoder_gru2', return_sequences=True)
-    decoder_gru3 = GRU(num_neurons, name='decoder_gru3', return_sequences=True)
-    decoder_dense = Dense(vocab_size, activation='softmax', name='decoder_output')
+            tokens_padded = pad_sequences(
+                tokens, maxlen=max_tokens, padding='post', truncating='post')
 
-    initial_state = decoder_transfer_map(transfer_values_input)
-   
-    net = decoder_input
-    net = decoder_embedding(net)
-    
-    net = decoder_gru1(net, initial_state=initial_state)
-    net = decoder_gru2(net, initial_state=initial_state)
-    net = decoder_gru3(net, initial_state=initial_state)
+            decoder_input_data = tokens_padded[:, 0:-1]
+            decoder_output_data = tokens_padded[:, 1:]
 
-    decoder_output = decoder_dense(net)
-    caption_model = Model(inputs=[transfer_values_input, decoder_input], outputs=[decoder_output])
+            x_data = {
+                'decoder_input': decoder_input_data,
+                'transfer_values_input': transfer_values
+            }
 
-    return caption_model
+            y_data = {
+                'decoder_output': decoder_output_data
+            }
 
-def generateCaptionLSTM(image, wordtoidx, idxtoword, model, max_length):
-    x1 = []
-    x1.append(image)
-    in_text = config.START
-    for i in range(max_length):
-      sequence = [wordtoidx[w] for w in in_text.split() if w in wordtoidx]
-      sequence = pad_sequences([sequence], maxlen=max_length)
+            yield (x_data, y_data)
 
-      yhat = model.predict([np.array(x1),sequence], verbose=0)
-      yhat = np.argmax(yhat)
-      word = idxtoword[yhat]
-      in_text += ' ' + word
-      if word == config.STOP:
-        break
-    final = in_text.split()
-    final = final[1:-1]
-    final = ' '.join(final)
-    return final
+    def generate_caption_LSTM(self, image, wordtoidx, idxtoword):
+        x1 = []
+        x1.append(image)
+        in_text = config.START
 
-def generateCaptionGRU(photo, wordtoidx, idxtoword, model, cnn_model, height, width, images_path, max_length):
-    image_path = os.path.join(images_path, photo)
-    image = tensorflow.keras.preprocessing.image.load_img(image_path, target_size=(height, width))
-    image_batch = np.expand_dims(image, axis=0)
+        for i in range(self.max_length):
+            sequence = [wordtoidx[w]
+                        for w in in_text.split() if w in wordtoidx]
+            sequence = pad_sequences([sequence], maxlen=self.max_length)
 
-    transfer_values = cnn_model.predict(image_batch)
+            yhat = self.model.predict([np.array(x1), sequence], verbose=0)
+            yhat = np.argmax(yhat)
+            word = idxtoword[yhat]
+            in_text += ' ' + word
 
-    shape = (1, max_length)
-    sequence = np.zeros(shape=shape, dtype=np.int)
-    in_text = wordtoidx[config.START]
-    output = ""
+            if word == config.STOP:
+                break
 
-    for i in range(max_length):
-      sequence[0, i] = in_text
+        final = in_text.split()
+        final = final[1:-1]
+        final = ' '.join(final)
 
-      x_data = {
-          'transfer_values_input': transfer_values,
-          'decoder_input': sequence
-      }
+        return final
 
-      yhat = model.predict(x_data, verbose=0)
-      token_onehot = yhat[0, i, :]
-    #   print(token_onehot)
+    def generate_caption_GRU(self, photo, wordtoidx, idxtoword, cnn_model, images_path):
+        image_path = os.path.join(images_path, photo)
+        image = tensorflow.keras.preprocessing.image.load_img(
+            image_path, target_size=(cnn_model.height, cnn_model.width))
+        image_batch = np.expand_dims(image, axis=0)
 
-      in_text = np.argmax(token_onehot)
-      
-      word = idxtoword[in_text]
-      if word == config.STOP:
-        break
-      
-      if i == 0:
-        output += word
-      else:
-        output += ' ' + word
+        transfer_values = cnn_model.get_model().predict(image_batch)
 
-    return output
+        shape = (1, self.max_length)
+        sequence = np.zeros(shape=shape, dtype=np.int)
+        in_text = wordtoidx[config.START]
+        output = ""
+
+        for i in range(self.max_length):
+            sequence[0, i] = in_text
+
+            x_data = {
+                'transfer_values_input': transfer_values,
+                'decoder_input': sequence
+            }
+
+            yhat = self.model.predict(x_data, verbose=0)
+            token_onehot = yhat[0, i, :]
+
+            in_text = np.argmax(token_onehot)
+
+            word = idxtoword[in_text]
+            if word == config.STOP:
+                break
+
+            if i == 0:
+                output += word
+            else:
+                output += ' ' + word
+
+        return output
