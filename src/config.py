@@ -15,6 +15,7 @@ VGG16_OUTPUT_DIM = 4096
 """--------------------------"""
 
 """VALUES FOR RNN MODEL"""
-LOSS = "sparse_categorical_crossentropy"
+LSTM_LOSS = "categorical_crossentropy"
+GRU_LOSS = "sparse_categorical_crossentropy"
 OPTIMIZER = "adam"
 METRICS = ["accuracy"]

@@ -1,14 +1,26 @@
-import tensorflow.keras.preprocessing.image
-from modelFunctions import CNNModel, RNNModel
-import dataFunctions
-import config
-import numpy as np
-import platform
-import argparse
-import pickle
 from matplotlib import pyplot as plt
+import pickle
+import argparse
+import platform
+import numpy as np
+import config
+import dataFunctions
+from modelFunctions import CNNModel, RNNModel
+import tensorflow.keras.preprocessing.image
 import os
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
+
+
+def plot_image(data1, data2, title):
+    plt.plot(data1)
+    plt.plot(data2)
+
+    plt.title(title)
+    plt.ylabel('accuracy')
+    plt.xlabel('epoch')
+    plt.legend(['train', 'test'], loc='upper left')
+
+    plt.show()
 
 
 if __name__ == "__main__":
@@ -40,17 +52,22 @@ if __name__ == "__main__":
 
     # Get path files
     print("Getting data...")
-    images_path = os.path.join(args.train_path, "train")
+    train_images_path = os.path.join(args.train_path, "train")
+    test_images_path = os.path.join(args.train_path, "test")
     captions_path = os.path.join(args.train_path, "captions.txt")
     train_list = os.path.join(args.train_path, "train.txt")
+    test_list = os.path.join(args.train_path, "test.txt")
 
     # Get data from files
     data, max_length = dataFunctions.getData(captions_path)
     lex = dataFunctions.getLexicon(data)
 
     # Get images and captions arrays
-    images_array, captions_array = dataFunctions.getDataArrays(
+    train_images_array, train_captions_array = dataFunctions.getDataArrays(
         data, train_list)
+
+    test_images_array, test_captions_array = dataFunctions.getDataArrays(
+        data, test_list)
 
     # Tokenize words using idxtoword and wordtoidx
     print("Tokenizing captions...")
@@ -58,8 +75,11 @@ if __name__ == "__main__":
     vocab_size = len(idxtoword) + 1
 
     # Get tokenized captions
-    token_captions_array = dataFunctions.getTokensArrays(
-        captions_array, wordtoidx)
+    train_token_captions_array = dataFunctions.getTokensArrays(
+        train_captions_array, wordtoidx)
+
+    test_token_captions_array = dataFunctions.getTokensArrays(
+        test_captions_array, wordtoidx)
 
     # Choose CNN model and get useful params
     print("Creating CNN model...")
@@ -75,22 +95,44 @@ if __name__ == "__main__":
         "data", f'train_images_{name}_{cnn_model.get_output_dim()}.pk1')
     if not os.path.exists(train_images_save) or args.rewrite_images == True:
         print(f"Encoding images to {train_images_save}...")
-        shape = (len(images_array), cnn_model.get_output_dim())
-        encoded_images = np.zeros(shape=shape, dtype=np.float16)
+        shape = (len(train_images_array), cnn_model.get_output_dim())
+        train_encoded_images = np.zeros(shape=shape, dtype=np.float16)
 
-        for i, img in enumerate(images_array):
-            image_path = os.path.join(images_path, img)
+        for i, img in enumerate(train_images_array):
+            image_path = os.path.join(train_images_path, img)
             img = tensorflow.keras.preprocessing.image.load_img(
                 image_path, target_size=(cnn_model.get_height(), cnn_model.get_width()))
-            encoded_images[i] = cnn_model.encode_image(img)
+            train_encoded_images[i] = cnn_model.encode_image(img)
 
         with open(train_images_save, 'wb') as f:
-            pickle.dump(encoded_images, f)
-            print("Saved encoded images to disk")
+            pickle.dump(train_encoded_images, f)
+            print("Saved encoded train images to disk")
     else:
         print(f"Loading images from {train_images_save}...")
         with open(train_images_save, 'rb') as f:
-            encoded_images = pickle.load(f)
+            train_encoded_images = pickle.load(f)
+
+    # Encode test images and save them
+    test_images_save = os.path.join(
+        "data", f'test_images_{name}_{cnn_model.get_output_dim()}.pk1')
+    if not os.path.exists(test_images_save) or args.rewrite_images == True:
+        print(f"Encoding images to {test_images_save}...")
+        shape = (len(test_images_array), cnn_model.get_output_dim())
+        test_encoded_images = np.zeros(shape=shape, dtype=np.float16)
+
+        for i, img in enumerate(test_images_array):
+            image_path = os.path.join(test_images_path, img)
+            img = tensorflow.keras.preprocessing.image.load_img(
+                image_path, target_size=(cnn_model.get_height(), cnn_model.get_width()))
+            test_encoded_images[i] = cnn_model.encode_image(img)
+
+        with open(test_images_save, 'wb') as f:
+            pickle.dump(test_encoded_images, f)
+            print("Saved encoded test images to disk")
+    else:
+        print(f"Loading images from {test_images_save}...")
+        with open(test_images_save, 'rb') as f:
+            test_encoded_images = pickle.load(f)
 
     # Load Embeddings if needed
     embedding_matrix = None
@@ -113,19 +155,20 @@ if __name__ == "__main__":
     model_save = os.path.join(
         args.model_path, f'model_{args.cnn_type}_{args.rnn_type}_{args.use_embedding}_{args.epochs}_{args.neurons}.hdf5')
     if not os.path.exists(model_save) or args.rewrite_model == True:
-        generator = rnn_model.create_generator(
-            encoded_images, token_captions_array, args.batch_size)
+        train_generator = rnn_model.create_generator(
+            train_encoded_images, train_token_captions_array, args.batch_size)
 
-        rnn_model.get_model().fit(generator, epochs=args.epochs, steps_per_epoch=(
-            len(encoded_images) // args.batch_size), verbose=2)
+        test_generator = rnn_model.create_generator(
+            test_encoded_images, test_token_captions_array, len(test_encoded_images))
 
-        plt.plot(rnn_model.get_model().history.history['accuracy'])
-        plt.plot(rnn_model.get_model().history.history['loss'])
-        plt.title('model accuracy')
-        plt.ylabel('accuracy')
-        plt.xlabel('epoch')
-        plt.legend(['accuracy', 'loss'], loc='upper left')
-        plt.show()
+        rnn_model.get_model().fit(train_generator, epochs=args.epochs, steps_per_epoch=(
+            len(train_encoded_images) // args.batch_size), validation_data=test_generator,
+            validation_steps=(len(test_encoded_images) // args.batch_size), verbose=2)
+
+        plot_image(rnn_model.get_model().history.history['acc'], rnn_model.get_model(
+        ).history.history['val_acc'], "Accuracy")
+        plot_image(rnn_model.get_model().history.history['loss'], rnn_model.get_model(
+        ).history.history['val_loss'], "Loss")
 
         rnn_model.get_model().save(model_save)
         print(f'Saved model to {model_save}')

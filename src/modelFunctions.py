@@ -83,7 +83,6 @@ class RNNModel:
                  vocab_size=None,
                  max_length=None,
                  output_dim=None,
-                 loss=None,
                  optimizer=None,
                  embedding_matrix=None):
 
@@ -93,8 +92,13 @@ class RNNModel:
         self.num_neurons = num_neurons
         self.max_length = max_length
         self.embedding_matrix = embedding_matrix
-        self.loss = loss
         self.optimizer = optimizer
+
+        if model_name == "gru":
+            self.loss = config.GRU_LOSS
+
+        else:
+            self.loss = config.LSTM_LOSS
 
     def build_model(self):
         if self.model_name == "lstm":

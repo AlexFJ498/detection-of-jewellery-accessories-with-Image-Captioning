@@ -1,11 +1,11 @@
-import dataFunctions
-from modelFunctions import CNNModel, RNNModel
-from tensorflow import keras
-import tensorflow.keras.preprocessing.image
-import platform
-import pickle
-import numpy as np
 import argparse
+import numpy as np
+import pickle
+import platform
+import tensorflow.keras.preprocessing.image
+from tensorflow import keras
+from modelFunctions import CNNModel, RNNModel
+import dataFunctions
 import os
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 
@@ -20,13 +20,13 @@ def searchCaption(caption, data):
     return predicted_image, img
 
 
-def obtainCCR(ccr, total):
+def obtain_CCR(ccr, total):
     ccr = ccr / total
     ccr = ccr * 100
     return ccr
 
 
-def getNumAccesories(captions_array):
+def get_num_accesories_4(captions_array):
     num_gargantillas = 0
     num_pendientes = 0
     num_anillos = 0
@@ -44,6 +44,77 @@ def getNumAccesories(captions_array):
             num_pulseras += 1
 
     return num_gargantillas, num_pendientes, num_anillos, num_pulseras
+
+
+def get_num_accesories_6(captions_array):
+    num_pendientes_plata = 0
+    num_pendientes_oro = 0
+    num_colgantes_plata = 0
+    num_colgantes_oro = 0
+    num_anillos_oro = 0
+    num_pulseras_oro = 0
+
+    for caption in captions_array:
+        word = caption.split()[1]
+        if word == 'Pendiente' or word == 'Pendientes' and "plata" in caption:
+            num_pendientes_plata += 1
+
+        elif word == 'Pendiente' or word == 'Pendientes' and "oro" in caption:
+            num_pendientes_oro += 1
+
+        elif word == 'Colgante' and "plata" in caption:
+            num_colgantes_plata += 1
+
+        elif word == 'Colgante' and "oro" in caption:
+            num_colgantes_oro += 1
+
+        elif word == 'Anillo' and "oro" in caption:
+            num_anillos_oro += 1
+
+        elif word == 'Pulsera' and "oro" in caption:
+            num_pulseras_oro += 1
+
+    return num_pendientes_plata, num_pendientes_oro, num_colgantes_plata, num_colgantes_oro, num_anillos_oro, num_pulseras_oro
+
+
+def get_CCR_4(caption, ccr_collares, ccr_pendientes, ccr_anillos, ccr_pulseras):
+    if "Gargantilla" in caption or "Colgante" in caption:
+        ccr_collares += 1
+
+    elif "Pendiente" in caption or "Pendientes" in caption:
+        ccr_pendientes += 1
+
+    elif "Anillo" in caption or "Sortija" in caption:
+        ccr_anillos += 1
+
+    elif "Pulsera" in caption:
+        ccr_pulseras += 1
+
+    return ccr_collares, ccr_pendientes, ccr_anillos, ccr_pulseras
+
+
+def get_CCR_6(caption, ccr_pendientes_plata, ccr_pendientes_oro, ccr_colgantes_plata,
+              ccr_colgantes_oro, ccr_anillos_oro, ccr_pulseras_oro):
+
+    if ("Pendiente" in caption or "Pendientes" in caption) and "plata" in caption:
+        ccr_pendientes_plata += 1
+
+    elif ("Pendiente" in caption or "Pendientes" in caption) and "oro" in caption:
+        ccr_pendientes_oro += 1
+
+    elif "Colgante" in caption and "plata" in caption:
+        ccr_colgantes_plata += 1
+
+    elif "Colgante" in caption and "oro" in caption:
+        ccr_colgantes_oro += 1
+
+    elif "Anillo" in caption and "oro" in caption:
+        ccr_anillos_oro += 1
+
+    elif "Pulsera" in caption and "oro" in caption:
+        ccr_pulseras_oro += 1
+
+    return ccr_pendientes_plata, ccr_pendientes_oro, ccr_colgantes_plata, ccr_colgantes_oro, ccr_anillos_oro, ccr_pulseras_oro
 
 
 if __name__ == "__main__":
@@ -113,35 +184,47 @@ if __name__ == "__main__":
 
         with open(images_save, 'wb') as f:
             pickle.dump(encoded_images, f)
-            print("Saved encoded images to disk")
+            print("Saved encoded test images to disk")
     else:
         print(f"Loading images from {images_save}...")
         with open(images_save, 'rb') as f:
             encoded_images = pickle.load(f)
 
     # Get number of accesories are of each type
-    num_gargantillas, num_pendientes, num_anillos, num_pulseras = getNumAccesories(
-        captions_array)
+    if name == "Donasol_bd":
+        num_pendientes_plata, num_pendientes_oro, num_colgantes_plata, num_colgantes_oro, num_anillos_oro, num_pulseras_oro = get_num_accesories_6(
+            captions_array)
+    else:
+        num_gargantillas, num_pendientes, num_anillos, num_pulseras = get_num_accesories_4(
+            captions_array)
 
     print("Loading model...: ")
     rnn_model = RNNModel(max_length=max_length)
     rnn_model.set_model(keras.models.load_model(args.model_name))
     print("Model loaded")
 
-    with open(os.path.join("models", f"models_{name}", f'idxtoword_{cnn_type}_{rnn_type}_{use_embedding}_{epochs}_{neurons}.pk1'), 'rb') as f:
+    with open(os.path.join("models", name, f'idxtoword_{cnn_type}_{rnn_type}_{use_embedding}_{epochs}_{neurons}.pk1'), 'rb') as f:
         idxtoword = pickle.load(f)
         print("Loaded idxtoword from disk")
 
-    with open(os.path.join("models", f"models_{name}", f'wordtoidx_{cnn_type}_{rnn_type}_{use_embedding}_{epochs}_{neurons}.pk1'), 'rb') as f:
+    with open(os.path.join("models", name, f'wordtoidx_{cnn_type}_{rnn_type}_{use_embedding}_{epochs}_{neurons}.pk1'), 'rb') as f:
         wordtoidx = pickle.load(f)
         print("Loaded wordtoidx from disk")
         print("================================")
 
     ccr = 0
+
     ccr_collares = 0
     ccr_pendientes = 0
     ccr_anillos = 0
     ccr_pulseras = 0
+
+    ccr_pendientes_plata = 0
+    ccr_pendientes_oro = 0
+    ccr_colgantes_plata = 0
+    ccr_colgantes_oro = 0
+    ccr_anillos_oro = 0
+    ccr_pulseras_oro = 0
 
     for i in range(len(images_array)):
         image = images_array[i]
@@ -164,36 +247,59 @@ if __name__ == "__main__":
             if caption == data[image]:
                 ccr += 1
 
-                if "Gargantilla" in caption or "Colgante" in caption:
-                    ccr_collares += 1
+                if name == "Donasol_bd":
+                    ccr_pendientes_plata, ccr_pendientes_oro, ccr_colgantes_plata, ccr_colgantes_oro, ccr_anillos_oro, ccr_pulseras_oro = get_CCR_6(caption, ccr_pendientes_plata, ccr_pendientes_oro, ccr_colgantes_plata,
+                                                                                                                                                    ccr_colgantes_oro, ccr_anillos_oro, ccr_pulseras_oro)
 
-                elif "Pendiente" in caption or "Pendientes" in caption:
-                    ccr_pendientes += 1
+                else:
+                    ccr_pendientes, ccr_anillos, ccr_pulseras = get_CCR_4(caption, ccr_collares, ccr_pendientes,
+                                                                          ccr_anillos, ccr_pulseras)
 
-                elif "Anillo" in caption or "Sortija" in caption:
-                    ccr_anillos += 1
-
-                elif "Pulsera" in caption:
-                    ccr_pulseras += 1
         else:
             print("The obtained caption does not exist in the dataset")
 
         print("================================")
 
     print(ccr)
-    print(ccr_collares)
-    print(ccr_pendientes)
-    print(ccr_anillos)
-    print(ccr_pulseras)
-
-    ccr = obtainCCR(ccr, len(images_array))
-    ccr_gargantillas = obtainCCR(ccr_collares, num_gargantillas)
-    ccr_pendientes = obtainCCR(ccr_pendientes, num_pendientes)
-    ccr_anillos = obtainCCR(ccr_anillos, num_anillos)
-    ccr_pulseras = obtainCCR(ccr_pulseras, num_pulseras)
-
+    ccr = obtain_CCR(ccr, len(images_array))
     print("CCR =", round(ccr, 2), "%")
-    print("CCR Gargantillas=", round(ccr_gargantillas, 2), "%")
-    print("CCR Pendientes=", round(ccr_pendientes, 2), "%")
-    print("CCR Anillos=", round(ccr_anillos, 2), "%")
-    print("CCR Pulseras=", round(ccr_pulseras, 2), "%")
+
+    if name == "Donasol_bd":
+        print(ccr_pendientes_plata)
+        print(ccr_pendientes_oro)
+        print(ccr_colgantes_plata)
+        print(ccr_colgantes_oro)
+        print(ccr_anillos_oro)
+        print(ccr_pulseras_oro)
+
+        ccr_pendientes_plata = obtain_CCR(
+            ccr_pendientes_plata, num_pendientes_plata)
+        ccr_pendientes_oro = obtain_CCR(ccr_pendientes_oro, num_pendientes_oro)
+        ccr_colgantes_plata = obtain_CCR(
+            ccr_colgantes_plata, num_colgantes_plata)
+        ccr_colgantes_oro = obtain_CCR(ccr_colgantes_oro, num_colgantes_oro)
+        ccr_anillos_oro = obtain_CCR(ccr_anillos_oro, num_anillos_oro)
+        ccr_pulseras_oro = obtain_CCR(ccr_pulseras_oro, num_pulseras_oro)
+
+        print("CCR Pendientes Plata =", round(ccr_pendientes_plata, 2), "%")
+        print("CCR Pendientes Oro =", round(ccr_pendientes_oro, 2), "%")
+        print("CCR Colgantes Plata =", round(ccr_colgantes_plata, 2), "%")
+        print("CCR Colgantes Oro =", round(ccr_colgantes_oro, 2), "%")
+        print("CCR Anillos Oro =", round(ccr_anillos_oro, 2), "%")
+        print("CCR Pulseras Oro =", round(ccr_pulseras_oro, 2), "%")
+
+    else:
+        print(ccr_collares)
+        print(ccr_pendientes)
+        print(ccr_anillos)
+        print(ccr_pulseras)
+
+        ccr_colgantes = obtain_CCR(ccr_collares, num_gargantillas)
+        ccr_pendientes = obtain_CCR(ccr_pendientes, num_pendientes)
+        ccr_anillos = obtain_CCR(ccr_anillos, num_anillos)
+        ccr_pulseras = obtain_CCR(ccr_pulseras, num_pulseras)
+
+        print("CCR Collares=", round(ccr_collares, 2), "%")
+        print("CCR Pendientes=", round(ccr_pendientes, 2), "%")
+        print("CCR Anillos=", round(ccr_anillos, 2), "%")
+        print("CCR Pulseras=", round(ccr_pulseras, 2), "%")
