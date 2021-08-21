@@ -2,6 +2,10 @@ import argparse
 import numpy as np
 import pickle
 import platform
+from sklearn.metrics import confusion_matrix, plot_confusion_matrix
+import seaborn as sn
+import pandas as pd
+import matplotlib.pyplot as plt
 import tensorflow.keras.preprocessing.image
 from tensorflow import keras
 from modelFunctions import CNNModel, RNNModel
@@ -226,6 +230,10 @@ if __name__ == "__main__":
     ccr_anillos_oro = 0
     ccr_pulseras_oro = 0
 
+    expected_array = []
+    obtained_array = []
+    matrix_labels = []
+
     for i in range(len(images_array)):
         image = images_array[i]
         image_encoded = encoded_images[i]
@@ -241,6 +249,12 @@ if __name__ == "__main__":
 
         print("Obtained caption:", caption)
 
+        expected_array.append(data[image])
+        obtained_array.append(caption)
+
+        if data[image] not in matrix_labels:
+            matrix_labels.append(data[image])
+
         predicted_image, img = searchCaption(caption, data)
 
         if predicted_image:
@@ -252,8 +266,8 @@ if __name__ == "__main__":
                                                                                                                                                     ccr_colgantes_oro, ccr_anillos_oro, ccr_pulseras_oro)
 
                 else:
-                    ccr_pendientes, ccr_anillos, ccr_pulseras = get_CCR_4(caption, ccr_collares, ccr_pendientes,
-                                                                          ccr_anillos, ccr_pulseras)
+                    ccr_collares, ccr_pendientes, ccr_anillos, ccr_pulseras = get_CCR_4(caption, ccr_collares, ccr_pendientes,
+                                                                                        ccr_anillos, ccr_pulseras)
 
         else:
             print("The obtained caption does not exist in the dataset")
@@ -265,12 +279,6 @@ if __name__ == "__main__":
     print("CCR =", round(ccr, 2), "%")
 
     if name == "Donasol_bd":
-        print(ccr_pendientes_plata)
-        print(ccr_pendientes_oro)
-        print(ccr_colgantes_plata)
-        print(ccr_colgantes_oro)
-        print(ccr_anillos_oro)
-        print(ccr_pulseras_oro)
 
         ccr_pendientes_plata = obtain_CCR(
             ccr_pendientes_plata, num_pendientes_plata)
@@ -289,17 +297,27 @@ if __name__ == "__main__":
         print("CCR Pulseras Oro =", round(ccr_pulseras_oro, 2), "%")
 
     else:
-        print(ccr_collares)
-        print(ccr_pendientes)
-        print(ccr_anillos)
-        print(ccr_pulseras)
 
         ccr_colgantes = obtain_CCR(ccr_collares, num_gargantillas)
         ccr_pendientes = obtain_CCR(ccr_pendientes, num_pendientes)
         ccr_anillos = obtain_CCR(ccr_anillos, num_anillos)
         ccr_pulseras = obtain_CCR(ccr_pulseras, num_pulseras)
 
-        print("CCR Collares=", round(ccr_collares, 2), "%")
-        print("CCR Pendientes=", round(ccr_pendientes, 2), "%")
-        print("CCR Anillos=", round(ccr_anillos, 2), "%")
-        print("CCR Pulseras=", round(ccr_pulseras, 2), "%")
+        print("CCR Collares =", round(ccr_colgantes, 2), "%")
+        print("CCR Pendientes =", round(ccr_pendientes, 2), "%")
+        print("CCR Anillos =", round(ccr_anillos, 2), "%")
+        print("CCR Pulseras =", round(ccr_pulseras, 2), "%")
+
+    print("---------------------")
+    if name == "Donasol_bd" or name == "Accesorios_Genericos_bd":
+        print("CONFUSION MATRIX")
+        matrix = confusion_matrix(expected_array, obtained_array, matrix_labels)
+
+        print(matrix)
+        print(matrix_labels)
+
+        df_cm = pd.DataFrame(matrix, matrix_labels, matrix_labels)
+        sn.set(font_scale=1.4)
+        sn.heatmap(df_cm, annot=True, annot_kws={"size": 16})
+
+        plt.show()
