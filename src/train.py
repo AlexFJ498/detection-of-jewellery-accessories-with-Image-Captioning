@@ -16,9 +16,9 @@ def plot_image(data1, data2, title):
     plt.plot(data2)
 
     plt.title(title)
-    plt.ylabel('accuracy')
+    plt.ylabel(title)
     plt.xlabel('epoch')
-    plt.legend(['train', 'test'], loc='upper left')
+    plt.legend(['train', 'validation'], loc='upper left')
 
     plt.show()
 
@@ -53,10 +53,10 @@ if __name__ == "__main__":
     # Get path files
     print("Getting data...")
     train_images_path = os.path.join(args.train_path, "train")
-    test_images_path = os.path.join(args.train_path, "test")
+    val_images_path = os.path.join(args.train_path, "validation")
     captions_path = os.path.join(args.train_path, "captions.txt")
     train_list = os.path.join(args.train_path, "train.txt")
-    test_list = os.path.join(args.train_path, "test.txt")
+    val_list = os.path.join(args.train_path, "validation.txt")
 
     # Get data from files
     data, max_length = dataFunctions.getData(captions_path)
@@ -66,8 +66,8 @@ if __name__ == "__main__":
     train_images_array, train_captions_array = dataFunctions.getDataArrays(
         data, train_list)
 
-    test_images_array, test_captions_array = dataFunctions.getDataArrays(
-        data, test_list)
+    val_images_array, val_captions_array = dataFunctions.getDataArrays(
+        data, val_list)
 
     # Tokenize words using idxtoword and wordtoidx
     print("Tokenizing captions...")
@@ -78,8 +78,8 @@ if __name__ == "__main__":
     train_token_captions_array = dataFunctions.getTokensArrays(
         train_captions_array, wordtoidx)
 
-    test_token_captions_array = dataFunctions.getTokensArrays(
-        test_captions_array, wordtoidx)
+    val_token_captions_array = dataFunctions.getTokensArrays(
+        val_captions_array, wordtoidx)
 
     # Choose CNN model and get useful params
     print("Creating CNN model...")
@@ -113,26 +113,26 @@ if __name__ == "__main__":
             train_encoded_images = pickle.load(f)
 
     # Encode test images and save them
-    test_images_save = os.path.join(
-        "data", f'test_images_{name}_{cnn_model.get_output_dim()}.pk1')
-    if not os.path.exists(test_images_save) or args.rewrite_images == True:
-        print(f"Encoding images to {test_images_save}...")
-        shape = (len(test_images_array), cnn_model.get_output_dim())
-        test_encoded_images = np.zeros(shape=shape, dtype=np.float16)
+    val_images_save = os.path.join(
+        "data", f'val_images_{name}_{cnn_model.get_output_dim()}.pk1')
+    if not os.path.exists(val_images_save) or args.rewrite_images == True:
+        print(f"Encoding images to {val_images_save}...")
+        shape = (len(val_images_array), cnn_model.get_output_dim())
+        val_encoded_images = np.zeros(shape=shape, dtype=np.float16)
 
-        for i, img in enumerate(test_images_array):
-            image_path = os.path.join(test_images_path, img)
+        for i, img in enumerate(val_images_array):
+            image_path = os.path.join(val_images_path, img)
             img = tensorflow.keras.preprocessing.image.load_img(
                 image_path, target_size=(cnn_model.get_height(), cnn_model.get_width()))
-            test_encoded_images[i] = cnn_model.encode_image(img)
+            val_encoded_images[i] = cnn_model.encode_image(img)
 
-        with open(test_images_save, 'wb') as f:
-            pickle.dump(test_encoded_images, f)
-            print("Saved encoded test images to disk")
+        with open(val_images_save, 'wb') as f:
+            pickle.dump(val_encoded_images, f)
+            print("Saved encoded validation images to disk")
     else:
-        print(f"Loading images from {test_images_save}...")
-        with open(test_images_save, 'rb') as f:
-            test_encoded_images = pickle.load(f)
+        print(f"Loading images from {val_images_save}...")
+        with open(val_images_save, 'rb') as f:
+            val_encoded_images = pickle.load(f)
 
     # Load Embeddings if needed
     embedding_matrix = None
@@ -145,7 +145,7 @@ if __name__ == "__main__":
     # Build model
     print("Building model...")
     rnn_model = RNNModel(args.rnn_type, args.neurons, vocab_size, max_length,
-                         cnn_model.get_output_dim(), config.LOSS, config.OPTIMIZER, embedding_matrix)
+                         cnn_model.get_output_dim(), config.OPTIMIZER, embedding_matrix)
 
     rnn_model.build_model()
     rnn_model.compile_model()
@@ -153,17 +153,17 @@ if __name__ == "__main__":
     # Train model
     print("Training model...")
     model_save = os.path.join(
-        args.model_path, f'model_{args.cnn_type}_{args.rnn_type}_{args.use_embedding}_{args.epochs}_{args.neurons}.hdf5')
+        args.model_path, f'model_{args.cnn_type}_{args.rnn_type}_{args.use_embedding}_{args.epochs}_{args.neurons}_{args.batch_size}.hdf5')
     if not os.path.exists(model_save) or args.rewrite_model == True:
         train_generator = rnn_model.create_generator(
             train_encoded_images, train_token_captions_array, args.batch_size)
 
-        test_generator = rnn_model.create_generator(
-            test_encoded_images, test_token_captions_array, len(test_encoded_images))
+        val_generator = rnn_model.create_generator(
+            val_encoded_images, val_token_captions_array, len(val_encoded_images))
 
         rnn_model.get_model().fit(train_generator, epochs=args.epochs, steps_per_epoch=(
-            len(train_encoded_images) // args.batch_size), validation_data=test_generator,
-            validation_steps=(len(test_encoded_images) // args.batch_size), verbose=2)
+            len(train_encoded_images) // args.batch_size), validation_data=val_generator,
+            validation_steps=(len(val_encoded_images) // args.batch_size), verbose=2)
 
         plot_image(rnn_model.get_model().history.history['acc'], rnn_model.get_model(
         ).history.history['val_acc'], "Accuracy")
@@ -173,11 +173,11 @@ if __name__ == "__main__":
         rnn_model.get_model().save(model_save)
         print(f'Saved model to {model_save}')
 
-        with open(os.path.join(args.model_path, f'idxtoword_{args.cnn_type}_{args.rnn_type}_{args.use_embedding}_{args.epochs}_{args.neurons}.pk1'), 'wb') as f:
+        with open(os.path.join(args.model_path, f'idxtoword_{args.cnn_type}_{args.rnn_type}_{args.use_embedding}_{args.epochs}_{args.neurons}_{args.batch_size}.pk1'), 'wb') as f:
             pickle.dump(idxtoword, f)
             print("Saved idxtoword to disk")
 
-        with open(os.path.join(args.model_path, f'wordtoidx_{args.cnn_type}_{args.rnn_type}_{args.use_embedding}_{args.epochs}_{args.neurons}.pk1'), 'wb') as f:
+        with open(os.path.join(args.model_path, f'wordtoidx_{args.cnn_type}_{args.rnn_type}_{args.use_embedding}_{args.epochs}_{args.neurons}_{args.batch_size}.pk1'), 'wb') as f:
             pickle.dump(wordtoidx, f)
             print("Saved wordtoidx to disk")
     else:
