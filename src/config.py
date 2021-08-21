@@ -14,6 +14,12 @@ VGG16_HEIGHT = 224
 VGG16_OUTPUT_DIM = 4096
 """--------------------------"""
 
+"""VALUES FOR MOBILENET MODEL"""
+MOBILENET_WIDTH = 224
+MOBILENET_HEIGHT = 224
+MOBILENET_OUTPUT_DIM = 50176
+"""--------------------------"""
+
 """VALUES FOR RNN MODEL"""
 LSTM_LOSS = "categorical_crossentropy"
 GRU_LOSS = "sparse_categorical_crossentropy"

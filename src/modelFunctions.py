@@ -15,10 +15,11 @@ import tensorflow.keras.applications.inception_v3
 from tensorflow.keras.applications import VGG16
 import tensorflow.keras.applications.vgg16
 
+from tensorflow.keras.applications import MobileNet
+import tensorflow.keras.applications.mobilenet 
+
 from tensorflow.keras.layers import (LSTM, GRU, Embedding,
-                                     TimeDistributed, Dense, RepeatVector,
-                                     Activation, Flatten, Reshape, concatenate,
-                                     Dropout, BatchNormalization, add)
+                                     Dense, Dropout, add)
 
 
 class CNNModel:
@@ -43,6 +44,15 @@ class CNNModel:
             self.height = config.VGG16_HEIGHT
             self.output_dim = config.VGG16_OUTPUT_DIM
             self.preprocess_input = tensorflow.keras.applications.vgg16.preprocess_input
+
+        elif self.model_name == "mobilenet":
+            self.model = MobileNet(weights='imagenet',include_top=False)
+            # self.model = Model(inputs=self.model.input,
+            #                    outputs=self.model.layers[-1].output)
+            self.width = config.MOBILENET_WIDTH
+            self.height = config.MOBILENET_HEIGHT
+            self.output_dim = config.MOBILENET_OUTPUT_DIM
+            self.preprocess_input = tensorflow.keras.applications.mobilenet.preprocess_input
 
         else:
             print("Model name not found")
