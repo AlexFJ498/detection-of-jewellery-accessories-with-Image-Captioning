@@ -16,7 +16,7 @@ from tensorflow.keras.applications import VGG16
 import tensorflow.keras.applications.vgg16
 
 from tensorflow.keras.applications import MobileNet
-import tensorflow.keras.applications.mobilenet 
+import tensorflow.keras.applications.mobilenet
 
 from tensorflow.keras.layers import (LSTM, GRU, Embedding,
                                      Dense, Dropout, add)
@@ -46,9 +46,7 @@ class CNNModel:
             self.preprocess_input = tensorflow.keras.applications.vgg16.preprocess_input
 
         elif self.model_name == "mobilenet":
-            self.model = MobileNet(weights='imagenet',include_top=False)
-            # self.model = Model(inputs=self.model.input,
-            #                    outputs=self.model.layers[-1].output)
+            self.model = MobileNet(weights='imagenet', include_top=False)
             self.width = config.MOBILENET_WIDTH
             self.height = config.MOBILENET_HEIGHT
             self.output_dim = config.MOBILENET_OUTPUT_DIM
@@ -103,12 +101,8 @@ class RNNModel:
         self.max_length = max_length
         self.embedding_matrix = embedding_matrix
         self.optimizer = optimizer
-
-        if model_name == "gru":
-            self.loss = config.GRU_LOSS
-
-        else:
-            self.loss = config.LSTM_LOSS
+        self.loss = config.LOSS
+        self.metrics = config.METRICS
 
     def build_model(self):
         if self.model_name == "lstm":
@@ -153,65 +147,41 @@ class RNNModel:
 
     def build_lstm_model(self):
         inputs1 = Input(shape=(self.output_dim,))
+        inputs2 = Input(shape=(self.max_length,))
+
         fe1 = Dropout(0.5)(inputs1)
         fe2 = Dense(self.num_neurons, activation='relu')(fe1)
-        inputs2 = Input(shape=(self.max_length,))
+
         se1 = Embedding(self.vocab_size, config.EMBEDDING_SIZE,
                         mask_zero=True)(inputs2)
         se2 = Dropout(0.5)(se1)
         se3 = LSTM(self.num_neurons)(se2)
+
         decoder1 = add([fe2, se3])
         decoder2 = Dense(self.num_neurons, activation='relu')(decoder1)
-        outputs = Dense(self.vocab_size, activation='softmax')(decoder2)
-        model = Model(inputs=[inputs1, inputs2], outputs=outputs)
 
-        return model
-
-    def build_gru_model_2(self):
-        inputs1 = Input(shape=(self.output_dim,))
-        fe1 = Dropout(0.5)(inputs1)
-        fe2 = Dense(self.num_neurons, activation='relu')(fe1)
-        inputs2 = Input(shape=(self.max_length,))
-        se1 = Embedding(self.vocab_size, config.EMBEDDING_SIZE,
-                        mask_zero=True)(inputs2)
-        se2 = Dropout(0.5)(se1)
-        se3 = GRU(self.num_neurons)(se2)
-        decoder1 = add([fe2, se3])
-        decoder2 = Dense(self.num_neurons, activation='relu')(decoder1)
         outputs = Dense(self.vocab_size, activation='softmax')(decoder2)
         model = Model(inputs=[inputs1, inputs2], outputs=outputs)
 
         return model
 
     def build_gru_model(self):
-        transfer_values_input = Input(
-            shape=(self.output_dim,), name='transfer_values_input')
-        decoder_transfer_map = Dense(
-            self.num_neurons, activation='tanh', name='decoder_transfer_map')
-        decoder_input = Input(shape=(None, ), name='decoder_input')
-        decoder_embedding = Embedding(
-            input_dim=self.vocab_size, output_dim=300, mask_zero=True, name='decoder_embedding')
-        decoder_gru1 = GRU(
-            self.num_neurons, name='decoder_gru1', return_sequences=True)
-        decoder_gru2 = GRU(
-            self.num_neurons, name='decoder_gru2', return_sequences=True)
-        decoder_gru3 = GRU(
-            self.num_neurons, name='decoder_gru3', return_sequences=True)
-        decoder_dense = Dense(
-            self.vocab_size, activation='softmax', name='decoder_output')
+        inputs1 = Input(shape=(self.output_dim,))
+        inputs2 = Input(shape=(self.max_length,))
 
-        initial_state = decoder_transfer_map(transfer_values_input)
+        fe1 = Dropout(0.5)(inputs1)
+        fe2 = Dense(self.num_neurons, activation='relu')(fe1)
 
-        net = decoder_input
-        net = decoder_embedding(net)
+        se1 = Embedding(self.vocab_size, config.EMBEDDING_SIZE,
+                        mask_zero=True)(inputs2)
+        se2 = Dropout(0.5)(se1)
+        se3 = GRU(self.num_neurons)(se2)
 
-        net = decoder_gru1(net, initial_state=initial_state)
-        net = decoder_gru2(net, initial_state=initial_state)
-        net = decoder_gru3(net, initial_state=initial_state)
+        decoder1 = add([fe2, se3])
+        decoder2 = Dense(self.num_neurons, activation='relu')(decoder1)
 
-        decoder_output = decoder_dense(net)
-        model = Model(inputs=[transfer_values_input,
-                      decoder_input], outputs=[decoder_output])
+        outputs = Dense(self.vocab_size, activation='softmax')(decoder2)
+        model = Model(inputs=[inputs1, inputs2], outputs=outputs)
 
         return model
 
@@ -221,20 +191,9 @@ class RNNModel:
             self.model.layers[2].trainable = True
 
         self.model.compile(optimizer=self.optimizer,
-                           loss=self.loss, metrics=config.METRICS)
+                           loss=self.loss, metrics=self.metrics)
 
     def create_generator(self, images, token_captions, batch_size):
-        if self.model_name == "lstm":
-            return self.create_lstm_generator(images, token_captions, batch_size)
-
-        elif self.model_name == "gru":
-            return self.create_gru_generator(images, token_captions, batch_size)
-
-        else:
-            print("Invalid model name")
-            sys.exit(1)
-
-    def create_lstm_generator(self, images, token_captions, batch_size):
         x1, x2, y = [], [], []
         n = 0
 
@@ -260,36 +219,7 @@ class RNNModel:
                     x1, x2, y = [], [], []
                     n = 0
 
-    def create_gru_generator(self, images, token_captions, batch_size):
-        while True:
-            idx = np.random.randint(len(token_captions), size=batch_size)
-            transfer_values = images[idx]
-
-            tokens = []
-            for i in idx:
-                tokens.append(token_captions[i])
-
-            num_tokens = [len(t) for t in tokens]
-            max_tokens = np.max(num_tokens)
-
-            tokens_padded = pad_sequences(
-                tokens, maxlen=max_tokens, padding='post', truncating='post')
-
-            decoder_input_data = tokens_padded[:, 0:-1]
-            decoder_output_data = tokens_padded[:, 1:]
-
-            x_data = {
-                'decoder_input': decoder_input_data,
-                'transfer_values_input': transfer_values
-            }
-
-            y_data = {
-                'decoder_output': decoder_output_data
-            }
-
-            yield (x_data, y_data)
-
-    def generate_caption_LSTM(self, image, wordtoidx, idxtoword):
+    def generate_caption(self, image, wordtoidx, idxtoword):
         x1 = []
         x1.append(image)
         in_text = config.START
@@ -312,40 +242,3 @@ class RNNModel:
         final = ' '.join(final)
 
         return final
-
-    def generate_caption_GRU(self, photo, wordtoidx, idxtoword, cnn_model, images_path):
-        image_path = os.path.join(images_path, photo)
-        image = tensorflow.keras.preprocessing.image.load_img(
-            image_path, target_size=(cnn_model.height, cnn_model.width))
-        image_batch = np.expand_dims(image, axis=0)
-
-        transfer_values = cnn_model.get_model().predict(image_batch)
-
-        shape = (1, self.max_length)
-        sequence = np.zeros(shape=shape, dtype=np.int)
-        in_text = wordtoidx[config.START]
-        output = ""
-
-        for i in range(self.max_length):
-            sequence[0, i] = in_text
-
-            x_data = {
-                'transfer_values_input': transfer_values,
-                'decoder_input': sequence
-            }
-
-            yhat = self.model.predict(x_data, verbose=0)
-            token_onehot = yhat[0, i, :]
-
-            in_text = np.argmax(token_onehot)
-
-            word = idxtoword[in_text]
-            if word == config.STOP:
-                break
-
-            if i == 0:
-                output += word
-            else:
-                output += ' ' + word
-
-        return output

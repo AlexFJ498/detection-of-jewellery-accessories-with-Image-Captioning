@@ -31,7 +31,7 @@ if __name__ == "__main__":
                         dest="train_path", type=str, required=True)
     parser.add_argument("--model_path", help="Path to save model",
                         dest="model_path", type=str, default="models/")
-    parser.add_argument("--cnn", help="Type of Convolutional Neural Network to use (inception or vgg16)",
+    parser.add_argument("--cnn", help="Type of Convolutional Neural Network to use (inception, vgg16 or mobilenet)",
                         dest="cnn_type", type=str, default="inception")
     parser.add_argument("--rnn", help="Type of special units to use for Recurrent Neural Network (lstm or gru)",
                         dest="rnn_type", type=str, default="lstm")
@@ -161,9 +161,11 @@ if __name__ == "__main__":
         val_generator = rnn_model.create_generator(
             val_encoded_images, val_token_captions_array, len(val_encoded_images))
 
+        callback = tensorflow.keras.callbacks.EarlyStopping(
+            monitor='val_loss', patience=5, restore_best_weights=True, verbose=1, mode='min')
         rnn_model.get_model().fit(train_generator, epochs=args.epochs, steps_per_epoch=(
             len(train_encoded_images) // args.batch_size), validation_data=val_generator,
-            validation_steps=(len(val_encoded_images) // args.batch_size), verbose=2)
+            validation_steps=(len(val_encoded_images) // args.batch_size), verbose=2, callbacks=[callback])
 
         plot_image(rnn_model.get_model().history.history['acc'], rnn_model.get_model(
         ).history.history['val_acc'], "Accuracy")

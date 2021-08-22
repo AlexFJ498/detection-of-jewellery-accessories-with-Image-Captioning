@@ -158,14 +158,17 @@ if __name__ == "__main__":
         rnn_type = args.model_name.split('/')[-1].split('_')[2]
         use_embedding = args.model_name.split('/')[-1].split('_')[3]
         epochs = args.model_name.split('/')[-1].split('_')[4]
-        neurons = args.model_name.split('/')[-1].split('_')[5].split('.')[0]
+        neurons = args.model_name.split('/')[-1].split('_')[5]
+        batch_size = args.model_name.split('/')[-1].split('_')[6].split('.')[0]
         name = args.test_path.split('/')[-1]
     elif platform.system() == "Windows":
         cnn_type = args.model_name.split('\\')[-1].split('_')[1]
         rnn_type = args.model_name.split('\\')[-1].split('_')[2]
         use_embedding = args.model_name.split('\\')[-1].split('_')[3]
         epochs = args.model_name.split('\\')[-1].split('_')[4]
-        neurons = args.model_name.split('\\')[-1].split('_')[5].split('.')[0]
+        neurons = args.model_name.split('\\')[-1].split('_')[5]
+        batch_size = args.model_name.split(
+            '\\')[-1].split('_')[6].split('.')[0]
         name = args.test_path.split('\\')[-1]
 
     # Choose CNN model and get useful params
@@ -207,11 +210,11 @@ if __name__ == "__main__":
     rnn_model.set_model(keras.models.load_model(args.model_name))
     print("Model loaded")
 
-    with open(os.path.join("models", name, f'idxtoword_{cnn_type}_{rnn_type}_{use_embedding}_{epochs}_{neurons}.pk1'), 'rb') as f:
+    with open(os.path.join("models", name, f'idxtoword_{cnn_type}_{rnn_type}_{use_embedding}_{epochs}_{neurons}_{batch_size}.pk1'), 'rb') as f:
         idxtoword = pickle.load(f)
         print("Loaded idxtoword from disk")
 
-    with open(os.path.join("models", name, f'wordtoidx_{cnn_type}_{rnn_type}_{use_embedding}_{epochs}_{neurons}.pk1'), 'rb') as f:
+    with open(os.path.join("models", name, f'wordtoidx_{cnn_type}_{rnn_type}_{use_embedding}_{epochs}_{neurons}_{batch_size}.pk1'), 'rb') as f:
         wordtoidx = pickle.load(f)
         print("Loaded wordtoidx from disk")
         print("================================")
@@ -240,12 +243,8 @@ if __name__ == "__main__":
 
         print("Expected image: ", image)
         print("Expected caption:", data[image])
-        if rnn_type == "lstm":
-            caption = rnn_model.generate_caption_LSTM(
-                image_encoded, wordtoidx, idxtoword)
-        elif rnn_type == "gru":
-            caption = rnn_model.generate_caption_GRU(
-                image, wordtoidx, idxtoword, cnn_model, images_path)
+        caption = rnn_model.generate_caption(
+            image_encoded, wordtoidx, idxtoword)
 
         print("Obtained caption:", caption)
 
@@ -311,7 +310,8 @@ if __name__ == "__main__":
     print("---------------------")
     if name == "Donasol_bd" or name == "Accesorios_Genericos_bd":
         print("CONFUSION MATRIX")
-        matrix = confusion_matrix(expected_array, obtained_array, matrix_labels)
+        matrix = confusion_matrix(
+            expected_array, obtained_array, matrix_labels)
 
         print(matrix)
         print(matrix_labels)
