@@ -1,6 +1,7 @@
 START = "startcap"
 STOP = "endcap"
 EMBEDDING_SIZE = 300
+EMBEDDING_NAME = "SBW-vectors-300-min5.txt"
 
 """VALUES FOR INCEPTION MODEL"""
 INCEPTION_WIDTH = 299

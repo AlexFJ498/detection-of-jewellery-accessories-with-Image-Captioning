@@ -80,7 +80,7 @@ def getTokensArrays(captions_array, wordtoidx):
 def getEmbeddings():
     embbedings = {}
 
-    embeddings_path = os.path.join("data", "SBW-vectors-300-min5.txt")
+    embeddings_path = os.path.join("data", config.EMBEDDING_NAME)
     with open(embeddings_path, 'rb') as f:
         for line in f:
             values = line.split()
