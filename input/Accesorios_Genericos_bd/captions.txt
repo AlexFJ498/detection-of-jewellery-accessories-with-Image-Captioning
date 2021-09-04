@@ -3,7 +3,7 @@ anillo-zache_1_0_3683.jpg 		 Anillo
 colgante-ohana-musa_1_0_1128.jpg 		 Colgante
 anillo-cecile_1.jpg 		 Anillo
 anillo-pia-oro_0_5254.jpg 		 Anillo
-pendientes-cadenas-monedas-plata_0_3108.jpg 		 Colgante
+pendientes-cadenas-monedas-plata_0_3108.jpg 		 Pendientes
 colgante-mama-y-estrellas-oro_0_3663.jpg 		 Colgante
 pendiente-argolla-plata_0_7708.jpg 		 Pendientes
 gargantilla-dana-1-estrella-sin-brillantes_1_0_1617.jpg 		 Colgante
@@ -65,7 +65,7 @@ anillo-lea_1.jpg 		 Anillo
 colgante-medallas-mama_0_1713.jpg 		 Colgante
 anillo-liso-oro_2_0_5475.jpg 		 Anillo
 cadena-basic-acero_0_3745.jpg 		 Colgante
-pendientes-largos-cadenas_1_0_529.jpg 		 Colgante
+pendientes-largos-cadenas_1_0_529.jpg 		 Pendientes
 gargantilla-marella_0_7977.jpg 		 Colgante
 pendientes-trepadores-hojitas-plata_0_8776.jpg 		 Anillo
 anillo-carmen_2_0_922.jpg 		 Anillo
@@ -165,7 +165,7 @@ colgante-valentina-oro_1_0_2291.jpg 		 Colgante
 colgante-eslabon-fino_1_0_713.jpg 		 Colgante
 gargantilla-amak-azul_1_0_5973.jpg 		 Colgante
 colgante-moon-coral.jpg 		 Colgante
-pendientes-cadenas-monedas-plata.jpg 		 Colgante
+pendientes-cadenas-monedas-plata.jpg 		 Pendientes
 colgante-macedonia_4_0_1714.jpg 		 Colgante
 pendiente-circle-esmaltado-rosca_0_4532.jpg 		 Pendientes
 cadena-basic-acero_0_7705.jpg 		 Colgante
@@ -184,7 +184,7 @@ gargantilla-milos-azul_1_0_321.jpg 		 Colgante
 pendientes-aro-fino-plata-20mm_0_5464.jpg 		 Pendientes
 colgante-mama-y-estrellas-oro_0_3859.jpg 		 Colgante
 gargantilla-arayat_2_0_448.jpg 		 Colgante
-pendientes-trepadores-lucero-plata_0_8295.jpg 		 Anillo
+pendientes-trepadores-lucero-plata_0_8295.jpg 		 Pendientes
 anillo-diana_4_0_3851.jpg 		 Anillo
 colgante-cruces-plata_0_7270.jpg 		 Colgante
 pendientes-aro-cruz-verdeagua_0_1903.jpg 		 Pendientes
@@ -208,7 +208,7 @@ sortija-annette_2_0_64.jpg 		 Anillo
 pendientes-aro-cruz-verdeagua_0_6926.jpg 		 Pendientes
 pulsera-bruna_0_7012.jpg 		 Pulsera
 gargantilla-amak-verde_1_0_5571.jpg 		 Colgante
-pendientes-trepadores-lucero-plata_0_8821.jpg 		 Anillo
+pendientes-trepadores-lucero-plata_0_8821.jpg 		 Pendientes
 pendiente-cereza_0_638.jpg 		 Pendientes
 pendientes-ingrid-plata_0_3419.jpg 		 Pendientes
 colgante-valentina-oro_1_0_2667.jpg 		 Colgante
@@ -313,7 +313,7 @@ pendientes-aro-rayito-coral_0_6553.jpg 		 Pendientes
 anillo-ana_2_0_650.jpg 		 Anillo
 colgante-ohana-musa_2_0_853.jpg 		 Colgante
 anillo-pantex-oro.jpg 		 Anillo
-pendientes-largos-cadenas_1_0_8074.jpg 		 Colgante
+pendientes-largos-cadenas_1_0_8074.jpg 		 Pendientes
 anillo-laura_2_0_7795.jpg 		 Anillo
 anillo-paloma_3_0_7815.jpg 		 Anillo
 anillo-cecile_3_0_6099.jpg 		 Anillo
@@ -399,7 +399,7 @@ pulsera-bruna_1_0_7417.jpg 		 Pulsera
 colgante-dumbo_0_6057.jpg 		 Colgante
 pendientes-aro-pearl-oro_0_1933.jpg 		 Pendientes
 colgante-ohana-musa_0_642.jpg 		 Colgante
-pendientes-trepadores-lucero-plata_0_754.jpg 		 Anillo
+pendientes-trepadores-lucero-plata_0_754.jpg 		 Pendientes
 anillo-margaret_2_0_7308.jpg 		 Anillo
 colgante-estrella-plata_0_427.jpg 		 Colgante
 pendientes-aro-lunita-white.jpg 		 Pendientes
@@ -441,7 +441,7 @@ pendientes-marella_1_0_7356.jpg 		 Pendientes
 colgante-mama-y-estrellas-oro_0_5553.jpg 		 Colgante
 pendientes-andromeda.jpg 		 Pendientes
 anillo-beatrice_3_0_5144.jpg 		 Anillo
-pendientes-cadenas-monedas-plata_0_6646.jpg 		 Colgante
+pendientes-cadenas-monedas-plata_0_6646.jpg 		 Pendientes
 anillo-zache_1_0_1930.jpg 		 Anillo
 aros-enamel-turquesa.jpg 		 Pendientes
 gargantilla-inicial_3_0_6493.jpg 		 Colgante
@@ -469,12 +469,12 @@ anillo-trenzado-oro_0_5239.jpg 		 Anillo
 anillo-cecile_2.jpg 		 Anillo
 gargantilla-arayat_1_0_3482.jpg 		 Colgante
 cadena-basic-acero_0_3711.jpg 		 Colgante
-pendientes-cadenas-monedas-plata_0_2555.jpg 		 Colgante
+pendientes-cadenas-monedas-plata_0_2555.jpg 		 Pendientes
 pendientes-minerales-plata_0_9067.jpg 		 Pendientes
 pendientes-auriga_1_0_2125.jpg 		 Pendientes
 anillo-mini-lila_2_0_4351.jpg 		 Anillo
 anillo-zache_0_6446.jpg 		 Anillo
-pendientes-cadenas-monedas-plata_0_2046.jpg 		 Colgante
+pendientes-cadenas-monedas-plata_0_2046.jpg 		 Pendientes
 pendientes-gallon-margaret-lila_0_4494.jpg 		 Pendientes
 anillo-kiara.jpg 		 Anillo
 anillo-skye_1_0_4521.jpg 		 Anillo
@@ -575,7 +575,7 @@ colgante-escapulario-del-carmen.jpg 		 Colgante
 anillo-skye_2_0_3303.jpg 		 Anillo
 pendientes-rayito-coral_0_3911.jpg 		 Pendientes
 colgante-estrella-plata_0_6122.jpg 		 Colgante
-pendientes-largos-cadenas_1_0_8766.jpg 		 Colgante
+pendientes-largos-cadenas_1_0_8766.jpg 		 Pendientes
 anillo-croissant_1_0_1931.jpg 		 Anillo
 gargantilla-etna_1_0_3047.jpg 		 Colgante
 anillo-croissant_0_5302.jpg 		 Anillo
@@ -676,7 +676,7 @@ pendientes-star-turquesa_0_6405.jpg 		 Pendientes
 anillo-trenzado-oro_0_1748.jpg 		 Anillo
 colgante-m-auxiliadora.jpg 		 Colgante
 pendientes-aro-rombo-circonitas-plata_0_1173.jpg 		 Pendientes
-pendientes-cadenas-monedas-plata_0_2541.jpg 		 Colgante
+pendientes-cadenas-monedas-plata_0_2541.jpg 		 Pendientes
 aros-enamel-coral_0_1270.jpg 		 Pendientes
 colgante-moneda-caesar-oro_0_4725.jpg 		 Colgante
 pendientes-aro-rombo-circonitas-plata.jpg 		 Pendientes
@@ -694,7 +694,7 @@ pendientes-estrella-plata-5mm.jpg 		 Pendientes
 aro-acero-11-mm_0_7405.jpg 		 Pendientes
 pulsera-necklace_0_6923.jpg 		 Pulsera
 colgante-azteca-plata_0_1958.jpg 		 Colgante
-pendientes-largos-cadenas_1_0_3203.jpg 		 Colgante
+pendientes-largos-cadenas_1_0_3203.jpg 		 Pendientes
 colgante-macedonia_1_0_4575.jpg 		 Colgante
 colgante-cuerno-plata_0_113.jpg 		 Colgante
 colgante-cuerno-plata_0_322.jpg 		 Colgante
@@ -746,7 +746,7 @@ colgante-valentina-plata_0_1442.jpg 		 Colgante
 colgante-moon-coral_1_0_3137.jpg 		 Colgante
 anillo-amelia_2_0_6361.jpg 		 Anillo
 pendientes-aro-lunita-white_0_2202.jpg 		 Pendientes
-trepador-circonitas-plata_0_8745.jpg 		 Anillo
+trepador-circonitas-plata_0_8745.jpg 		 Pendientes
 anillo-lourdes_1.jpg 		 Anillo
 pulsera-argos_1_0_4355.jpg 		 Pulsera
 pendientes-anahita_1_0_7959.jpg 		 Pendientes
@@ -763,7 +763,7 @@ pendientes-andromeda_1_0_1904.jpg 		 Pendientes
 anillo-anouk_2.jpg 		 Anillo
 pulsera-acero_2_0_2446.jpg 		 Pulsera
 colgante-nina-diamantes_1_0_4811.jpg 		 Colgante
-pendientes-trepadores-lucero-plata_0_9097.jpg 		 Anillo
+pendientes-trepadores-lucero-plata_0_9097.jpg 		 Pendientes
 colgante-macedonia.jpg 		 Colgante
 colgante-cruz-zafiros_1_0_7270.jpg 		 Colgante
 pendiente-cactus-plata_0_5460.jpg 		 Pendientes
@@ -798,7 +798,7 @@ anillo-croissant_0_8097.jpg 		 Anillo
 pendiente-aro-pearl-circonita-plata_0_1977.jpg 		 Pendientes
 anillo-trenzado-oro_0_9376.jpg 		 Anillo
 pendiente-libelula-plata.jpg 		 Pendientes
-pendientes-trepadores-lucero-plata_0_7994.jpg 		 Anillo
+pendientes-trepadores-lucero-plata_0_7994.jpg 		 Pendientes
 anillo-croissant_2_0_2958.jpg 		 Anillo
 aros-enamel-turquesa_0_6956.jpg 		 Pendientes
 anillo-amelia_2_0_7219.jpg 		 Anillo
@@ -918,8 +918,8 @@ colgante-medallitas-multicolor-plata_0_2037.jpg 		 Colgante
 pulsera-necklace-acero_0_2319.jpg 		 Pulsera
 pendientes-taurus_2_0_6706.jpg 		 Pendientes
 pendientes-aro-lunita-verdeagua_0_74.jpg 		 Pendientes
-trepador-circonitas-plata_0_8623.jpg 		 Anillo
-trepador-circonitas-plata_0_684.jpg 		 Anillo
+trepador-circonitas-plata_0_8623.jpg 		 Pendientes
+trepador-circonitas-plata_0_684.jpg 		 Pendientes
 pendiente-star-esmaltada-rosca_0_2417.jpg 		 Pendientes
 pendientes-star-circonita-plata_0_3024.jpg 		 Pendientes
 anillo-cristina_2_0_9055.jpg 		 Anillo
@@ -970,7 +970,7 @@ pendientes-aro-fino-plata-20mm.jpg 		 Pendientes
 anillo-buddy-azul_0_5604.jpg 		 Anillo
 brazalete-kelly-oro_0_4666.jpg 		 Pulsera
 pendiente-karol-plata_0_6615.jpg 		 Pendientes
-trepador-circonitas-plata.jpg 		 Anillo
+trepador-circonitas-plata.jpg 		 Pendientes
 pendientes-largos-circonita-rubi_0_5715.jpg 		 Pendientes
 pendientes-ingrid-plata.jpg 		 Pendientes
 gargantilla-amak-azul_1_0_6496.jpg 		 Colgante
@@ -998,7 +998,7 @@ pendientes-luna-turquesa_0_3267.jpg 		 Pendientes
 anillo-lea_3_0_4350.jpg 		 Anillo
 pulsera-gold-love_0_7191.jpg 		 Pulsera
 colgante-ohana-musa_1_0_8374.jpg 		 Colgante
-pendientes-trepadores-lucero-plata_0_2267.jpg 		 Anillo
+pendientes-trepadores-lucero-plata_0_2267.jpg 		 Pendientes
 pendientes-andromeda_1_0_34.jpg 		 Pendientes
 pendientes-orion-rubies_1_0_8543.jpg 		 Pendientes
 anillo-buffy-azul-electrico_0_2191.jpg 		 Anillo
@@ -1075,7 +1075,7 @@ pendientes-marion_1_0_1771.jpg 		 Pendientes
 colgante-azteca-plata.jpg 		 Colgante
 pendiente-karol-plata.jpg 		 Pendientes
 pendientes-sandia_0_8167.jpg 		 Pendientes
-pendientes-largos-cadenas_1_0_6314.jpg 		 Colgante
+pendientes-largos-cadenas_1_0_6314.jpg 		 Pendientes
 pulsera-orion-oro_0_9607.jpg 		 Pulsera
 colgante-ohana-musa.jpg 		 Colgante
 anillo-phoenix-oro_0_3983.jpg 		 Anillo
@@ -1141,7 +1141,7 @@ pendientes-giselle_1_0_1830.jpg 		 Pendientes
 anillo-fiore_3_0_6511.jpg 		 Anillo
 anillo-lapislazuli_0_8007.jpg 		 Anillo
 anillo-paloma_3_0_5652.jpg 		 Anillo
-pendientes-trepadores-lucero-plata_0_1291.jpg 		 Anillo
+pendientes-trepadores-lucero-plata_0_1291.jpg 		 Pendientes
 anillo-margaret_2_0_3768.jpg 		 Anillo
 anillo-cecile_3_0_5653.jpg 		 Anillo
 pulsera-bruna_0_9305.jpg 		 Pulsera
@@ -1292,7 +1292,7 @@ pulsera-cruz-con-diamante_1_0_516.jpg 		 Pulsera
 colgante-nina-diamantes_1_0_2166.jpg 		 Colgante
 colgante-nina-diamantes.jpg 		 Colgante
 colgante-macedonia_1_0_6770.jpg 		 Colgante
-pendientes-largos-cadenas_1_0_5458.jpg 		 Colgante
+pendientes-largos-cadenas_1_0_5458.jpg 		 Pendientes
 anillo-lourdes.jpg 		 Anillo
 anillo-laura.jpg 		 Anillo
 anillo-pia-oro_0_55.jpg 		 Anillo
@@ -1301,7 +1301,7 @@ anillo-skye_2_0_492.jpg 		 Anillo
 anillo-patricia.jpg 		 Anillo
 anillo-carmen.jpg 		 Anillo
 pendientes-rayito-coral_0_7644.jpg 		 Pendientes
-trepador-circonitas-plata_0_5587.jpg 		 Anillo
+trepador-circonitas-plata_0_5587.jpg 		 Pendientes
 gargantilla-dana-3-estrella-sin-brillantes_1_0_6565.jpg 		 Colgante
 pendientes-trepadores-hojitas-plata_0_6043.jpg 		 Anillo
 pendientes-aro-rayito-coral_0_4162.jpg 		 Pendientes
@@ -1375,7 +1375,7 @@ pendiente-libelula-plata_0_9480.jpg 		 Pendientes
 pendientes-aro-lunita-coral_0_6486.jpg 		 Pendientes
 colgante-star-rosa_0_858.jpg 		 Colgante
 anillo-trenzado-oro_0_3185.jpg 		 Anillo
-trepador-circonitas-plata_0_3373.jpg 		 Anillo
+trepador-circonitas-plata_0_3373.jpg 		 Pendientes
 anillo-patricia_2_0_5403.jpg 		 Anillo
 anillo-buddy-azul_1_0_1157.jpg 		 Anillo
 gargantilla-arayat_2_0_8872.jpg 		 Colgante
@@ -1434,7 +1434,7 @@ anillo-lea.jpg 		 Anillo
 anillo-milano_3_0_7154.jpg 		 Anillo
 anillo-serpiente_1_0_1550.jpg 		 Anillo
 colgante-mama-oro_0_7647.jpg 		 Colgante
-pendientes-largos-cadenas_1_0_5215.jpg 		 Colgante
+pendientes-largos-cadenas_1_0_5215.jpg 		 Pendientes
 colgante_0_5805.jpg 		 Colgante
 anillo-zache_0_6136.jpg 		 Anillo
 pendientes-amelie_1_0_4587.jpg 		 Pendientes
@@ -1446,7 +1446,7 @@ colgante-star-verdeagua_2_0_214.jpg 		 Colgante
 pendiente-karol-plata_0_8977.jpg 		 Pendientes
 anillo-liso-oro_2_0_1901.jpg 		 Anillo
 colgante-moon-coral_0_382.jpg 		 Colgante
-pendientes-largos-cadenas_1_0_7709.jpg 		 Colgante
+pendientes-largos-cadenas_1_0_7709.jpg 		 Pendientes
 anillo-serpiente_0_6059.jpg 		 Anillo
 cadena-basic-acero_0_623.jpg 		 Colgante
 gargantilla-imun_1_0_1022.jpg 		 Colgante
@@ -1632,7 +1632,7 @@ colgante-cruz-mauve_0_3960.jpg 		 Colgante
 pendiente-circle-esmaltado-rosca_0_5682.jpg 		 Pendientes
 anillo-angela_2_0_6588.jpg 		 Anillo
 colgante-moneda-caesar-oro_0_6448.jpg 		 Colgante
-pendientes-cadenas-monedas-plata_0_3103.jpg 		 Colgante
+pendientes-cadenas-monedas-plata_0_3103.jpg 		 Pendientes
 pulsera-ada_0_1105.jpg 		 Pulsera
 gargantilla-inicial-brillantes_2_0_8414.jpg 		 Colgante
 colgante-star-verdeagua_1_0_453.jpg 		 Colgante
@@ -1778,7 +1778,7 @@ pendientes-aro-cruz-verdeagua_0_7806.jpg 		 Pendientes
 anillo-esperanza_2_0_3247.jpg 		 Anillo
 colgante-medallitas-multicolor-oro_0_1980.jpg 		 Colgante
 pendientes-aro-pearl-oro_0_6329.jpg 		 Pendientes
-pendientes-trepadores-lucero-plata_0_6458.jpg 		 Anillo
+pendientes-trepadores-lucero-plata_0_6458.jpg 		 Pendientes
 colgante-medallitas-multicolor-plata_0_1589.jpg 		 Colgante
 pendiente-aro-basico-plata-30mm.jpg 		 Pendientes
 anillo-buddy-azul_1_0_935.jpg 		 Anillo
@@ -1822,7 +1822,7 @@ anillo-adrienne_3_0_3494.jpg 		 Anillo
 pendientes-aro-lunita-plata_0_8751.jpg 		 Pendientes
 gargantilla-arayat-esmeralda_1_0_6039.jpg 		 Colgante
 pulsera-magic-acero_0_5911.jpg 		 Pulsera
-trepador-circonitas-plata_0_2083.jpg 		 Anillo
+trepador-circonitas-plata_0_2083.jpg 		 Pendientes
 colgante-letras-mama-oro_0_919.jpg 		 Colgante
 anillo-genova.jpg 		 Anillo
 pendiente-aro-basico-plata-30mm_0_2835.jpg 		 Pendientes
@@ -1843,7 +1843,7 @@ colgante_1_0_7692.jpg 		 Colgante
 pendientes-taurus_2_0_6289.jpg 		 Pendientes
 pendientes-orion-esmeraldas_1_0_4367.jpg 		 Pendientes
 gargantilla-arayat-esmeralda_2_0_3044.jpg 		 Colgante
-pendientes-trepadores-lucero-plata_0_4066.jpg 		 Anillo
+pendientes-trepadores-lucero-plata_0_4066.jpg 		 Pendientes
 pulsera-seychelles_1_0_2951.jpg 		 Pulsera
 colgante-m-auxiliadora_0_2602.jpg 		 Colgante
 anillo-alexandra_2_0_685.jpg 		 Anillo
@@ -1852,7 +1852,7 @@ anillo-amelia_2_0_359.jpg 		 Anillo
 pendientes-anahita_1_0_2776.jpg 		 Pendientes
 gargantilla-inicial_2.jpg 		 Colgante
 pendientes-aro-lunita-plata_0_618.jpg 		 Pendientes
-pendientes-cadenas-monedas-plata_0_7449.jpg 		 Colgante
+pendientes-cadenas-monedas-plata_0_7449.jpg 		 Pendientes
 pendientes-andromeda_1_0_1434.jpg 		 Pendientes
 anillo-mini-lila.jpg 		 Anillo
 anillo-iris_3_0_8256.jpg 		 Anillo
@@ -1959,7 +1959,7 @@ pendientes-star-circonita-plata_0_9185.jpg 		 Pendientes
 pendientes-aro-lunita-coral_0_3988.jpg 		 Pendientes
 colgante-letras-mama-oro_0_4929.jpg 		 Colgante
 colgante-medallitas-multicolor-plata_0_4597.jpg 		 Colgante
-trepador-circonitas-plata_0_5398.jpg 		 Anillo
+trepador-circonitas-plata_0_5398.jpg 		 Pendientes
 anillo-buffy-azul-electrico.jpg 		 Anillo
 gargantilla-dana-1-estrella-sin-brillantes_1_0_5239.jpg 		 Colgante
 colgante-moon-coral_1_0_6686.jpg 		 Colgante
@@ -1971,7 +1971,7 @@ anillo-mini-lila_1_0_380.jpg 		 Anillo
 anillo-croissant_0_3171.jpg 		 Anillo
 pendientes-minerales-plata_0_5986.jpg 		 Pendientes
 anillo-croissant_1_0_3689.jpg 		 Anillo
-trepador-circonitas-plata_0_1718.jpg 		 Anillo
+trepador-circonitas-plata_0_1718.jpg 		 Pendientes
 anillo-adrienne_3_0_4264.jpg 		 Anillo
 gargantilla-amak-azul_1_0_7543.jpg 		 Colgante
 pulsera-necklace_0_1114.jpg 		 Pulsera
@@ -2025,7 +2025,7 @@ anillo-croissant_0_336.jpg 		 Anillo
 pendientes-auriga_1_0_1302.jpg 		 Pendientes
 pulsera-ada_0_941.jpg 		 Pulsera
 pulsera-cruz-con-diamante_1_0_1499.jpg 		 Pulsera
-pendientes-largos-cadenas.jpg 		 Colgante
+pendientes-largos-cadenas.jpg 		 Pendientes
 anillo-zache_0_4743.jpg 		 Anillo
 anillo-lea_3_0_5176.jpg 		 Anillo
 colgante-cruz-zafiros.jpg 		 Colgante
@@ -2101,7 +2101,7 @@ colgante-moon-coral_0_5496.jpg 		 Colgante
 pendientes-marella.jpg 		 Pendientes
 pulsera-magic-acero_0_8700.jpg 		 Pulsera
 pendiente-cereza_0_8225.jpg 		 Pendientes
-trepador-circonitas-plata_0_9456.jpg 		 Anillo
+trepador-circonitas-plata_0_9456.jpg 		 Pendientes
 anillo-margaret_0_4989.jpg 		 Anillo
 anillo-kiara_4_0_906.jpg 		 Anillo
 anillo-violeta_3_0_1696.jpg 		 Anillo
@@ -2158,7 +2158,7 @@ anillo-anouk_4_0_663.jpg 		 Anillo
 pendiente-love-rosca_0_9069.jpg 		 Pendientes
 anillo-serpiente_1_0_4311.jpg 		 Anillo
 pulsera-saint-martin-coral_3_0_2860.jpg 		 Pulsera
-pendientes-largos-cadenas_1_0_8261.jpg 		 Colgante
+pendientes-largos-cadenas_1_0_8261.jpg 		 Pendientes
 colgante-cruz-zafiros_1_0_2098.jpg 		 Colgante
 anillo-iris_1.jpg 		 Anillo
 pendientes-taurus_1_0_6967.jpg 		 Pendientes
@@ -2192,7 +2192,7 @@ cadena-basic-acero_0_5966.jpg 		 Colgante
 colgante-macedonia_4_0_6438.jpg 		 Colgante
 gargantilla-madeira_1_0_9247.jpg 		 Colgante
 gargantilla-dana-1-estrella-sin-brillantes_1_0_3506.jpg 		 Colgante
-pendientes-cadenas-monedas-plata_0_2228.jpg 		 Colgante
+pendientes-cadenas-monedas-plata_0_2228.jpg 		 Pendientes
 pulsera-saint-martin-coral_3_0_307.jpg 		 Pulsera
 pendientes-colette_1_0_6534.jpg 		 Pendientes
 anillo-carmen_2_0_4048.jpg 		 Anillo
@@ -2225,7 +2225,7 @@ pendientes-hollywood_0_1295.jpg 		 Pendientes
 colgante-m-auxiliadora_0_6279.jpg 		 Colgante
 pulsera-espiral-acero.jpg 		 Pulsera
 pendientes-nicolle_1_0_3528.jpg 		 Pendientes
-pendientes-cadenas-monedas-plata_0_2838.jpg 		 Colgante
+pendientes-cadenas-monedas-plata_0_2838.jpg 		 Pendientes
 colgante-nino-diamantes_1_0_6757.jpg 		 Colgante
 pulsera-tania-oro_0_1733.jpg 		 Pulsera
 gargantilla-dana-1-estrella-sin-brillantes_1_0_95.jpg 		 Colgante
@@ -2286,7 +2286,7 @@ gargantilla-inicial-brillantes_1_0_2923.jpg 		 Colgante
 pendientes-aro-presion-plata-25mm_0_5064.jpg 		 Pendientes
 pendientes-aro-lunita-verdeagua_0_7819.jpg 		 Pendientes
 pulsera-acero_2_0_8580.jpg 		 Pulsera
-pendientes-trepadores-lucero-plata.jpg 		 Anillo
+pendientes-trepadores-lucero-plata.jpg 		 Pendientes
 anillo-paloma_2_0_2234.jpg 		 Anillo
 colgante-letras-mama-oro_0_1285.jpg 		 Colgante
 pendiente-aro-cono-plata_0_4360.jpg 		 Pendientes
@@ -2343,7 +2343,7 @@ pendientes-aro-lunita-plata_1.jpg 		 Pendientes
 pulsera-saint-martin-coral_3.jpg 		 Pulsera
 gargantilla-amak-azul_1.jpg 		 Colgante
 colgante-ohana-musa_3.jpg 		 Colgante
-pendientes-cadenas-monedas-plata_1.jpg 		 Colgante
+pendientes-cadenas-monedas-plata_1.jpg 		 Pendientes
 gargantilla-dana-1-estrella-sin-brillantes_1.jpg 		 Colgante
 colgante-macedonia_3.jpg 		 Colgante
 gargantilla-cruz_1.jpg 		 Colgante
@@ -2405,10 +2405,10 @@ anillo-kiara_4.jpg 		 Anillo
 pendientes-denisse_1.jpg 		 Pendientes
 pendientes-rayito-coral_1.jpg 		 Pendientes
 pendientes-cono-circonita-plata_1.jpg 		 Pendientes
-pendientes-largos-cadenas_1.jpg 		 Colgante
+pendientes-largos-cadenas_1.jpg 		 Pendientes
 colgante_2.jpg 		 Colgante
 anillo-lourdes_2.jpg 		 Anillo
-trepador-circonitas-plata_1.jpg 		 Anillo
+trepador-circonitas-plata_1.jpg 		 Pendientes
 anillo-amelia_2.jpg 		 Anillo
 pendientes-cadena-enamel-turquesa_1.jpg 		 Colgante
 colgante-luna-plata_1.jpg 		 Colgante
@@ -2435,7 +2435,7 @@ anillo-violeta_4.jpg 		 Anillo
 anillo-lea_3.jpg 		 Anillo
 pendientes-celine_1.jpg 		 Pendientes
 pendiente-circle-esmaltado-rosca_1.jpg 		 Pendientes
-pendientes-trepadores-lucero-plata_1.jpg 		 Anillo
+pendientes-trepadores-lucero-plata_1.jpg 		 Pendientes
 anillo-pantex-oro_1.jpg 		 Anillo
 pendientes-linka-plata_2.jpg 		 Pendientes
 anillo-beatrice_3.jpg 		 Anillo
@@ -2536,7 +2536,7 @@ anillo-zache_2_0_9342.jpg 		 Anillo
 pulsera-acero_2_0_9990.jpg 		 Pulsera
 cadena-basic-acero_0_9942.jpg 		 Colgante
 colgante-mama-oro_0_9890.jpg 		 Colgante
-pendientes-largos-cadenas_1_0_9413.jpg 		 Colgante
+pendientes-largos-cadenas_1_0_9413.jpg 		 Pendientes
 pendientes-estrella-plata-5mm_0_8940.jpg 		 Pendientes
 colgante_1_0_9242.jpg 		 Colgante
 pendientes-colette_1_0_9881.jpg 		 Pendientes
@@ -2564,11 +2564,11 @@ pendientes-taurus_1_0_9622.jpg 		 Pendientes
 colgante-luna-plata_0_9601.jpg 		 Colgante
 pendientes-aro-presion-plata-25mm_0_8920.jpg 		 Pendientes
 pulsera-argos_1_0_9820.jpg 		 Pulsera
-trepador-circonitas-plata_0_371.jpg 		 Anillo
+trepador-circonitas-plata_0_371.jpg 		 Pendientes
 pendientes-sandia_0_8982.jpg 		 Pendientes
 pulsera-tania-oro_0_868.jpg 		 Pulsera
 pendientes-aro-pearl-oro_0_8095.jpg 		 Pendientes
-pendientes-cadenas-monedas-plata_0_9587.jpg 		 Colgante
+pendientes-cadenas-monedas-plata_0_9587.jpg 		 Pendientes
 pendientes-aro-lunita-verdeagua_0_9158.jpg 		 Pendientes
 aro-acero-11-mm_0_8898.jpg 		 Pendientes
 pendientes-taurus_2_0_9374.jpg 		 Pendientes
@@ -2589,7 +2589,7 @@ anillo-rosana_2_0_9353.jpg 		 Anillo
 anillo-trenzado-oro_1_0_9534.jpg 		 Anillo
 colgante-moon-coral_0_6994.jpg 		 Colgante
 colgante-medallas-mama_0_9759.jpg 		 Colgante
-pendientes-trepadores-lucero-plata_0_9634.jpg 		 Anillo
+pendientes-trepadores-lucero-plata_0_9634.jpg 		 Pendientes
 pendientes-luna-turquesa_0_9523.jpg 		 Pendientes
 colgante-inicial-circonitas_0_9645.jpg 		 Colgante
 anillo-ana_2_0_7922.jpg 		 Anillo
