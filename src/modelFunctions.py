@@ -192,6 +192,8 @@ class RNNModel:
 
         self.model.compile(optimizer=self.optimizer,
                            loss=self.loss, metrics=self.metrics)
+        
+        self.model.optimizer.lr = config.LEARNING_RATE
 
     def create_generator(self, images, token_captions, batch_size):
         x1, x2, y = [], [], []

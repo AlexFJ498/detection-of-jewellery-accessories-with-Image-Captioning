@@ -22,5 +22,6 @@ MOBILENET_OUTPUT_DIM = 50176
 
 """VALUES FOR RNN MODEL"""
 LOSS = "categorical_crossentropy"
+LEARNING_RATE = 1e-3
 OPTIMIZER = "adam"
 METRICS = ["accuracy"]
