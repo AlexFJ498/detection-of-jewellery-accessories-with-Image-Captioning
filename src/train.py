@@ -1,12 +1,12 @@
-from matplotlib import pyplot as plt
-import pickle
-import argparse
-import platform
-import numpy as np
-import config
-import dataFunctions
-from modelFunctions import CNNModel, RNNModel
 import tensorflow.keras.preprocessing.image
+from modelFunctions import CNNModel, RNNModel
+import dataFunctions
+import config
+import numpy as np
+import platform
+import argparse
+import pickle
+from matplotlib import pyplot as plt
 import os
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 
@@ -112,7 +112,7 @@ if __name__ == "__main__":
         with open(train_images_save, 'rb') as f:
             train_encoded_images = pickle.load(f)
 
-    # Encode test images and save them
+    # Encode val images and save them
     val_images_save = os.path.join(
         "data", f'val_images_{name}_{cnn_model.get_output_dim()}.pk1')
     if not os.path.exists(val_images_save) or args.rewrite_images == True:
@@ -161,14 +161,22 @@ if __name__ == "__main__":
         val_generator = rnn_model.create_generator(
             val_encoded_images, val_token_captions_array, len(val_encoded_images))
 
-        callback = tensorflow.keras.callbacks.EarlyStopping(
+        early_stopping = tensorflow.keras.callbacks.EarlyStopping(
             monitor='val_loss', patience=5, restore_best_weights=True, verbose=1, mode='min')
+
+        reduce_lr = tensorflow.keras.callbacks.ReduceLROnPlateau(
+            monitor='val_loss', factor=0.2, patience=2, mode='min', verbose=1, min_lr=0.00001, cooldown=0, min_delta=0.00001)
+
         rnn_model.get_model().fit(train_generator, epochs=args.epochs, steps_per_epoch=(
             len(train_encoded_images) // args.batch_size), validation_data=val_generator,
-            validation_steps=(len(val_encoded_images) // args.batch_size), verbose=2, callbacks=[callback])
+            validation_steps=(len(val_encoded_images) // args.batch_size), verbose=2, callbacks=[early_stopping])
 
-        plot_image(rnn_model.get_model().history.history['acc'], rnn_model.get_model(
-        ).history.history['val_acc'], "Accuracy")
+        if platform.system() == "Linux":
+            plot_image(rnn_model.get_model().history.history['acc'], rnn_model.get_model(
+            ).history.history['val_acc'], "Accuracy")
+        elif platform.system() == "Windows":
+            plot_image(rnn_model.get_model().history.history['accuracy'], rnn_model.get_model(
+            ).history.history['val_accuracy'], "Accuracy")
         plot_image(rnn_model.get_model().history.history['loss'], rnn_model.get_model(
         ).history.history['val_loss'], "Loss")
 
