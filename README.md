@@ -1,11 +1,26 @@
+## Table of contents
+- [About the project](#about-the-project)
+- [Installation](#installation)
+  * [Download project](#download-project)
+  * [Creating new environment](#creating-new-environment)
+  * [Install all libraries](#install-all-libraries)
+  * [Creating useful directories](#creating-useful-directories)
+  * [Download datasets](#download-datasets)
+- [Create and train models](#create-and-train-models)
+- [Test the model](#test-the-model)
+- [Generate new data using Image Data Augmentation](#generate-new-data-using-image-data-augmentation)
+- [Using web page](#using-web-page)
+
+
+
 # About the project
-This project pretends to be a useful tool to create different deep learning architectures based on Image Captioning for detecting jewellery accesories. Specifically, the accesories need to be placed on the human body.
+This project pretends to be a useful tool to create different deep learning architectures based on Image Captioning for detecting jewellery accessories. Specifically, the accessories need to be placed on the human body. The scripts has been created using libraries like Tensorflow and Keras.
 
 There are three datasets provided to create three different models, each one with a different level of caption. These levels are:
 
-- Simple caption. With this level the model will be able to classify between four types of accesories: rings, earrings, pendants and bracelets.
-- Medium caption. This level will provide the model with six types of accesories: gold rings, silver earrings, gold earrings, gold pendants, silver pendants and gold bracelets.
-- Complete caption. With this level the model will provide the complete name of the accesory. For this reason, this level will only work with the same accesories used for training.
+- Simple caption. With this level the model will be able to classify between four types of accessories: rings, earrings, pendants and bracelets.
+- Medium caption. This level will provide the model with six types of accessories: gold rings, silver earrings, gold earrings, gold pendants, silver pendants and gold bracelets.
+- Complete caption. With this level the model will provide the complete name of the accesory. For this reason, this level will only work with the same accessories used for training.
 
 In this repository you will find useful scripts for training models, testing them, creating new data, and using a simple web page for a more visual way to test the results.
 
