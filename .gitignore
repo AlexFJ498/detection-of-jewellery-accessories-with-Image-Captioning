@@ -132,3 +132,6 @@ dmypy.json
 .vscode
 notes.txt
 data/SBW-vectors-300-min5.txt
+models/
+data/
+input/
