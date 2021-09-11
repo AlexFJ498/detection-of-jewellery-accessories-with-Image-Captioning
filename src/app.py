@@ -7,8 +7,16 @@ from tensorflow import keras
 from modelFunctions import CNNModel, RNNModel
 import dataFunctions
 import os
+from tensorflow.python.keras.backend import set_session
+import numpy as np
+from PIL import Image
+import tensorflow as tf
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 app = Flask(__name__)
+
+session = tf.Session()
+set_session(session)
+graph = tf.get_default_graph()
 
 # VARIABLES
 NAME_1 = "vgg16_gru_False_50_1024_8"
@@ -83,6 +91,9 @@ def home():
 # To use the predict button in our web-app
 @app.route('/predict', methods=['POST'])
 def predict():
+    global session
+    global graph
+
     level = request.form['level']
     image = request.files['file']
 
@@ -94,26 +105,32 @@ def predict():
     if level == '1':
         image = tensorflow.keras.preprocessing.image.load_img(
             image_path, target_size=(cnn_model1.get_height(), cnn_model1.get_width()))
-        image_encoded = cnn_model1.encode_image(image)
 
-        caption = model1.generate_caption(
-            image_encoded, wordtoidx1, idxtoword1)
+        with session.as_default():
+            with graph.as_default():
+                image_encoded = cnn_model1.encode_image(image)
+                caption = model1.generate_caption(
+                    image_encoded, wordtoidx1, idxtoword1)
 
     elif level == '2':
         image = tensorflow.keras.preprocessing.image.load_img(
             image_path, target_size=(cnn_model2.get_height(), cnn_model2.get_width()))
-        image_encoded = cnn_model2.encode_image(image)
 
-        caption = model2.generate_caption(
-            image_encoded, wordtoidx2, idxtoword2)
+        with session.as_default():
+            with graph.as_default():
+                image_encoded = cnn_model2.encode_image(image)
+                caption = model2.generate_caption(
+                    image_encoded, wordtoidx2, idxtoword2)
 
     elif level == '3':
         image = tensorflow.keras.preprocessing.image.load_img(
             image_path, target_size=(cnn_model3.get_height(), cnn_model3.get_width()))
-        image_encoded = cnn_model3.encode_image(image)
 
-        caption = model3.generate_caption(
-            image_encoded, wordtoidx3, idxtoword3)
+        with session.as_default():
+            with graph.as_default():
+                image_encoded = cnn_model3.encode_image(image)
+                caption = model3.generate_caption(
+                    image_encoded, wordtoidx3, idxtoword3)
 
     data = {
         'image_path': image_name,
